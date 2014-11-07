@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'blog',
 )
 
@@ -62,17 +63,18 @@ WSGI_APPLICATION = 'mesteno.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_PATH, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mdj',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
+LANGUAGE_CODE = 'ru-ru'
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -100,9 +102,14 @@ STATICFILES_FINDERS = (
 
 BOWER_COMPONENTS_ROOT = BASE_PATH + '/bower'
 
-BOWER_INSTALLED_APPS = (
-    'jquery#2',
-    'angular#1.3.1',
+BOWER_INSTALLED_APPS = ('angular#1.3.1',
+    'angular-resource#1.3.1',
+    'angular-route-segment#1.3.3',
+    'angular-route#1.3.1',
+    'bootstrap#3.3.0',
+    'angular-animate#1.3.1',
+    'jquery#2.1.1',
+    'angular-django-rest-resource#1.0.3',
 )
 
 MEDIA_URL = '/media/'
@@ -129,6 +136,8 @@ if not DEBUG:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
         'rest_framework.renderers.JSONRenderer',
     )
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 try:
     from .local_settings import *
