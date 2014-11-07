@@ -1,0 +1,67 @@
+{% load compress %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="ru" ng-app="mesteno">
+    <head>
+        {% if debug %}
+            <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.css" %}">
+
+            <script src="{% static "angular/angular.js" %}"></script>
+            <script src="{% static "angular-route/angular-route.js" %}"></script>
+            <script src="{% static "angular-animate/angular-animate.js" %}"></script>
+            <script src="{% static "angular-resource/angular-resource.js" %}"></script>
+            <script src="{% static "angular-route-segment/build/angular-route-segment.js" %}"></script>
+            <script src="{% static "angular-django-rest-resource/angular-django-rest-resource.js" %}"></script>
+            <script src="{% static "js/angular/app.js" %}"></script>
+            <script src="{% static "js/angular/service.js" %}"></script>
+            <script src="{% static "js/angular/controller.js" %}"></script>
+        {% else %}
+            {% compress css %}
+            <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.min.css" %}">
+            {% endcompress %}
+
+            {% compress js %}
+            <script src="{% static "angular/angular.min.js" %}"></script>
+            <script src="{% static "angular-route/angular-route.min.js" %}"></script>
+            <script src="{% static "angular-animate/angular-animate.min.js" %}"></script>
+            <script src="{% static "angular-resource/angular-resource.min.js" %}"></script>
+            <script src="{% static "angular-route-segment/build/angular-route-segment.js" %}"></script>
+            <script src="{% static "angular-django-rest-resource/angular-django-rest-resource.js" %}"></script>
+            <script src="{% static "js/angular/app.js" %}"></script>
+            <script src="{% static "js/angular/service.js" %}"></script>
+            <script src="{% static "js/angular/controller.js" %}"></script>
+            {% endcompress %}
+        {% endif %}
+
+        {# <script src="{% static "js/mesteno/directives.js" %}"></script> #}
+        {# <script src="{% static "js/mesteno/services.js" %}"></script> #}
+        {# <script src="{% static "js/mesteno/filters.js" %}"></script> #}
+        {# <script src="{% static "js/mesteno/controllers.js" %}"></script> #}
+    </head>
+    <body>
+        {%verbatim%}
+        <div class="ng-cloak" ng-controller="MainCtrl">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                        </button>
+                        <a class="navbar-brand" href="#">Mesteno</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#{{'main' | routeSegmentUrl}}">Главная</a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+        </div>
+        <div class="container" id="content">
+            <div class="row anim" app-view-segment="0"></div>
+        </div>
+        <div id=loading class=alert ng-show="loader.show">Loading...</div>
+        {%endverbatim%}
+    </body>
+</html>
