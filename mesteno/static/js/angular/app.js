@@ -1,6 +1,8 @@
 'use strict';
 
-var baseSettings = function() {
+var baseSettings = function($httpProvider, $interpolateProvider) {
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    $interpolateProvider.startSymbol('[[').endSymbol(']]');
 };
 
 var routerSettings = function($routeSegmentProvider, $routeProvider) {
@@ -16,14 +18,16 @@ var routerSettings = function($routeSegmentProvider, $routeProvider) {
 var app = angular
     .module('mesteno', [
         'ngRoute',
+        'ngCookies',
         'ngAnimate',
         'djangoRESTResources',
         'route-segment',
         'view-segment',
         'mestenoServices',
+        'angular-loading-bar',
+        'ui.bootstrap',
     ])
     .config(baseSettings)
-    .config(routerSettings);
-
-app.value('loader', {show: false});
+    .config(routerSettings)
+    .value('loader', {show: false});
 

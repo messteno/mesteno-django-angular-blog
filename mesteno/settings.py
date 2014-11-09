@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 BASE_PATH = os.path.dirname(PROJECT_PATH)
+
+TEST_PEP8_DIRS = [os.path.dirname(PROJECT_PATH), ]
+TEST_PEP8_EXCLUDE = ['.env', 'migrations', ]
+
 path = lambda *args: os.path.join(PROJECT_PATH, *args)
 
 SECRET_KEY = 'r7+9&jzcd^^g449gxnof*3-imjk25t$k(zq_wvtnr^!+-#ihg9'
@@ -33,6 +37,7 @@ INSTALLED_APPS = (
     'djangobower',
     'compressor',
     'rest_framework',
+    'test_pep8',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -102,14 +107,19 @@ STATICFILES_FINDERS = (
 
 BOWER_COMPONENTS_ROOT = BASE_PATH + '/bower'
 
-BOWER_INSTALLED_APPS = ('angular#1.3.1',
+BOWER_INSTALLED_APPS = (
+    'angular-ui#0.4.0',
+    'angular-route#1.3.1',
+    'angular-animate#1.3.1',
+    'angular-bootstrap#0.11.2',
+    'angular-cookies#1.3.2',
+    'angular-django-rest-resource#1.0.3',
+    'angular#1.3.2',
+    'jquery#2.1.1',
     'angular-resource#1.3.1',
     'angular-route-segment#1.3.3',
-    'angular-route#1.3.1',
     'bootstrap#3.3.0',
-    'angular-animate#1.3.1',
-    'jquery#2.1.1',
-    'angular-django-rest-resource#1.0.3',
+    'angular-loading-bar#0.6.0'
 )
 
 MEDIA_URL = '/media/'

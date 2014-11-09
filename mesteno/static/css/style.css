@@ -1,0 +1,14 @@
+.login-modal .modal-dialog {
+    width: 450px;
+}
+
+.panel-title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.alert {
+    margin-bottom: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
