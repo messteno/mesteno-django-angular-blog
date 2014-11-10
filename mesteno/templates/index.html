@@ -18,7 +18,7 @@
             <script src="{% static "angular-cookies/angular-cookies.js" %}"></script>
             <script src="{% static "angular-resource/angular-resource.js" %}"></script>
             <script src="{% static "angular-loading-bar/build/loading-bar.js" %}"></script>
-            <script src="{% static "angular-route-segment/build/angular-route-segment.js" %}"></script>
+            <script src="{% static "angular-ui-router/release/angular-ui-router.js" %}"></script>
             <script src="{% static "angular-django-rest-resource/angular-django-rest-resource.js" %}"></script>
             <script src="{% static "angular-ui/build/angular-ui.js" %}"></script>
             <script src="{% static "angular-bootstrap/ui-bootstrap.js" %}"></script>
@@ -43,7 +43,7 @@
             <script src="{% static "angular-cookies/angular-cookies.min.js" %}"></script>
             <script src="{% static "angular-resource/angular-resource.min.js" %}"></script>
             <script src="{% static "angular-loading-bar/build/loading-bar.min.js" %}"></script>
-            <script src="{% static "angular-route-segment/build/angular-route-segment.js" %}"></script>
+            <script src="{% static "angular-ui-router/release/angular-ui-router.min.js" %}"></script>
             <script src="{% static "angular-django-rest-resource/angular-django-rest-resource.js" %}"></script>
             <script src="{% static "angular-ui/build/angular-ui.min.js" %}"></script>
             <script src="{% static "angular-bootstrap/ui-bootstrap.min.js" %}"></script>
@@ -54,10 +54,7 @@
             {% endcompress %}
         {% endif %}
 
-        {# <script src="{% static "js/mesteno/directives.js" %}"></script> #}
-        {# <script src="{% static "js/mesteno/services.js" %}"></script> #}
-        {# <script src="{% static "js/mesteno/filters.js" %}"></script> #}
-        {# <script src="{% static "js/mesteno/controllers.js" %}"></script> #}
+        <link href="{% static "favicon.ico" %}" rel="shortcut icon" type="image/x-icon" />
     </head>
     <body>
         <div class="ng-cloak" ng-controller="MainCtrl">
@@ -71,10 +68,16 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li ng-class="{active: ('main' | routeSegmentStartsWith)}">
-                                <a href="#[['main' | routeSegmentUrl]]">Главная</a>
+                            <li ui-sref-active="active">
+                                <a href ui-sref="main">Главная</a>
+                            </li>
+                            <li ui-sref-active="active">
+                                <a href ui-sref="articles">Статьи</a>
                             </li>
                             {% if user.is_authenticated %}
+                            <li ui-sref-active="active">
+                                <a href ui-sref="article-add">Добавить статью</a>
+                            </li>
                             <li><a href="" ng-click="logout()">Выйти ([[profile.user.username]])</a></li>
                             {% else %}
                             <li><a href="" ng-click="login()">Войти</a></li>
@@ -84,9 +87,10 @@
                 </div><!-- /.container-fluid -->
             </nav>
             <div class="container" id="content">
-                <div class="row anim" app-view-segment="0"></div>
+                <div class="row">
+                    <div class="col-md-12" ui-view></div>
+                </div>
             </div>
-            <div id=loading class=alert ng-show="loader.show">Loading...</div>
         </div>
     </body>
 </html>

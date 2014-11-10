@@ -2,4 +2,5 @@ from django.db import models
 
 
 class Article(models.Model):
-    article_text = models.TextField()
+    title = models.TextField(null=False, blank=False, default='Title')
+    content = models.TextField(null=False, blank=False, default='Content')

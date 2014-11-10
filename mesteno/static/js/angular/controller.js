@@ -1,13 +1,8 @@
 'use strict';
 
-app.controller('MainCtrl', function($scope, $routeSegment, $modal, $window, $location, loader, Profile) {
-    $scope.$routeSegment = $routeSegment;
+app.controller('MainCtrl', function($scope, $modal, $window, $location, loader, Profile) {
     $scope.loader = loader;
     $scope.profile = Profile.get();
-
-    $scope.$on('routeSegmentChange', function() {
-        loader.show = false;
-    });
 
     $scope.logout = function() {
         $scope.profile.$logout(function() {
@@ -28,10 +23,15 @@ app.controller('MainCtrl', function($scope, $routeSegment, $modal, $window, $loc
 });
 
 app.controller('LoginModalCtrl', function($scope, $modalInstance, $location, $window, Form) {
-    $scope.form = new Form($scope, '/api/login/', function() {
+    $scope.form = new Form($scope, '/api/login/', function(data) {
         $modalInstance.close();
-        $location.path('/');
-        $scope.$apply();
+        $location.path(data.location);
         $window.location.reload();
+    });
+});
+
+app.controller('ArticleAddCtrl', function($scope, $location, Form) {
+    $scope.form = new Form($scope, '/api/articles/add/', function(data) {
+        $location.path(data.location);
     });
 });

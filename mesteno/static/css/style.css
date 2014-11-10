@@ -1,14 +1,32 @@
+.glyphicon {
+    margin-right:5px;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
 .login-modal .modal-dialog {
     width: 450px;
 }
 
-.panel-title {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.alert {
+.login-modal .modal-dialog .alert,
+.article-add .alert {
     margin-bottom: 5px;
     padding-top: 7px;
     padding-bottom: 7px;
+}
+
+.article-add .panel-title {
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.article-add .article-datepicker {
+    display: inline-block;
+}
+
+.article-add .article-datepicker td {
+    padding: 2px;
 }

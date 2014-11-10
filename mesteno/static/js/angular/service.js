@@ -35,13 +35,13 @@ var Form = function($cookies) {
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.onerror = function(e) {
                     if (error) {
-                        error();
+                        error(e);
                     }
-                    self.addAlert('danger', 'Ошибка при отправке формы');
+                    self.error['__all__'] = 'Ошибка при обработке формы';
                     self.disabled = false;
                     $scope.$apply();
                 }
-                xhr.onload = function (e) {
+                xhr.onload = function(e) {
                     self.error = {};
                     var data = {};
                     try {
@@ -55,9 +55,9 @@ var Form = function($cookies) {
 
                     if (Object.keys(self.error).length == 0) {
                         if (success) {
-                            success();
+                            success(data);
                         }
-                        self.data = [];
+                        self.data = {};
                     }
                     else {
                         if (error) {

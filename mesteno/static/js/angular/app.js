@@ -5,14 +5,34 @@ var baseSettings = function($httpProvider, $interpolateProvider) {
     $interpolateProvider.startSymbol('[[').endSymbol(']]');
 };
 
-var routerSettings = function($routeSegmentProvider, $routeProvider) {
-    $routeSegmentProvider.options.autoLoadTemplates = true;
-    $routeSegmentProvider
-        .when('/main', 'main')
-        .segment('main', {
+var routerSettings = function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider
+        .otherwise('/main')
+        .when('', '/main')
+        .when('/articles', '/articles/list');
+
+    $stateProvider
+        .state('main', {
+            url: '/main',
             templateUrl: '/static/main.html',
+        })
+        .state('articles', {
+            url: '/articles',
+            templateUrl: 'static/articles.html'
+        })
+        .state('articles.list', {
+            url: '/list',
+            templateUrl: 'static/articles/index.html'
+        })
+        .state('articles.item', {
+            url: '/{id:[0-9]*}',
+            templateUrl: 'static/articles/item.html'
+        })
+        .state('article-add', {
+            url: '/articles/add',
+            templateUrl: 'static/articles/add.html',
+            controller: 'ArticleAddCtrl',
         });
-    $routeProvider.otherwise({redirectTo: '/main'});
 };
 
 var app = angular
@@ -21,11 +41,10 @@ var app = angular
         'ngCookies',
         'ngAnimate',
         'djangoRESTResources',
-        'route-segment',
-        'view-segment',
         'mestenoServices',
         'angular-loading-bar',
         'ui.bootstrap',
+        'ui.router',
     ])
     .config(baseSettings)
     .config(routerSettings)

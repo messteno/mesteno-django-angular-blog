@@ -1,0 +1,55 @@
+<div class="article-add">
+    <accordion>
+        <accordion-group is-open="true">
+            <accordion-heading>
+                <h4 class="panel-title">
+                    <i class="glyphicon glyphicon-file"></i>
+                    Добавить новую статью
+                </h4>
+            </accordion-heading>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <alert ng-show="form.error.title" close="form.closeAlert('title')" type="danger">[[form.error.title]]</alert>
+                        <input type="text" class="form-control" placeholder="Название" ng-model="form.data.title" />
+                    </div>
+                    <div class="form-group">
+                        <alert ng-show="form.error.content" close="form.closeAlert('content')" type="danger">[[form.error.content]]</alert>
+                        <textarea class="form-control" placeholder="Сожержание" rows="5" ng-model="form.data.content"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="article-datepicker">
+                        <datepicker ng-model="dt" show-weeks="false" class="well well-sm mb-0"></datepicker>
+                    </div>
+                </div>
+            </div>
+        </accordion-group>
+        <accordion-group>
+            <accordion-heading>
+                <h4 class="panel-title">
+                    <i class="glyphicon glyphicon-th-list"></i>
+                    META-данные
+                </h4>
+            </accordion-heading>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Заголовок страницы" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Описание" required />
+                    </div>
+                    <div class="form-group mb-0">
+                        <textarea class="form-control" placeholder="Ключевые слова" required></textarea>
+                    </div>
+                </div>
+            </div>
+        </accordion-group>
+    </accordion>
+    <button class="btn btn-success btn-lg" ng-click="form.submit()">
+        <i class="glyphicon glyphicon-floppy-disk"></i>Сохранить
+    </button>
+</div>

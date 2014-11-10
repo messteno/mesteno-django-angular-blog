@@ -7,6 +7,7 @@ from django.views.generic.base import TemplateView
 from rest_framework import routers
 from .viewsets import UserViewSet
 from .views import ProfileView, LogoutView, LoginView
+from blog.views import ArticleAddView
 
 
 router = routers.DefaultRouter()
@@ -23,6 +24,7 @@ urlpatterns = patterns(
     url(r'^api/profile/', ProfileView.as_view()),
     url(r'^api/logout/', LogoutView.as_view()),
     url(r'^api/login/', LoginView.as_view()),
+    url(r'^api/articles/add/', ArticleAddView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls',
         namespace='rest_framework')),
     url(r'^blog/', include('blog.urls')),
