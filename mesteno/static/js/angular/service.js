@@ -16,7 +16,7 @@ var Profile = function(djResource, $http) {
 };
 
 var Article = function(djResource) {
-    var Article = djResource('/api/articles/:id');
+    var Article = djResource('/api/articles/:articleId', {articleId: '@articleId'});
     return Article;
 };
 
@@ -46,7 +46,7 @@ var Form = function($cookies) {
                     self.disabled = false;
                     $scope.$apply();
                 }
-                xhr.onload = function(e) {
+                xhr.onload = function() {
                     self.error = {};
                     var data = {};
                     try {

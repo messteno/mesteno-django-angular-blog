@@ -1,4 +1,4 @@
-Articles
-<div class="article" ng-repeat="article in articles" class="well well-sm">
-    [[article.title]]
+<h1>Статьи</h1>
+<div ng-repeat="article in articles" class="article well well-sm">
+    <a href ui-sref="articles.item({articleId: article.id})">[[article.title]]</a>
 </div>

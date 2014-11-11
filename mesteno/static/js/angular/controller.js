@@ -34,6 +34,12 @@ app.controller('ArticleListCtrl', function($scope, Article) {
     $scope.articles = Article.query();
 });
 
+app.controller('ArticleItemCtrl', function($scope, $stateParams, Article) {
+    $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
+        console.log($scope.article);
+    });
+});
+
 app.controller('ArticleAddCtrl', function($scope, $location, Form) {
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path(data.location);

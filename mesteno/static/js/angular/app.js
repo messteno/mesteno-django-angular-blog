@@ -26,8 +26,9 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
             controller: 'ArticleListCtrl',
         })
         .state('articles.item', {
-            url: '/{id:[0-9]*}',
+            url: '/{articleId:[0-9]*}',
             templateUrl: 'static/articles/item.html',
+            controller: 'ArticleItemCtrl',
         })
         .state('article-add', {
             url: '/articles/add',

@@ -1,4 +1,5 @@
 <div class="article-add">
+    <alert ng-show="form.error.__all__" close="form.closeAlert('__all__')" type="danger">[[form.error.__all__]]</alert>
     <accordion>
         <accordion-group is-open="true">
             <accordion-heading>

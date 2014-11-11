@@ -140,7 +140,8 @@ TEMPLATE_DIRS = (
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'EXCEPTION_HANDLER': 'utils.exceptions.rest_exception_handler'
 }
 
 if not DEBUG:
