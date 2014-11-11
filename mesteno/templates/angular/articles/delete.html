@@ -1,0 +1,12 @@
+<div class="panel-heading">
+    <h2 class="panel-title">Вы уверены, что хотите удалить статью?</h2>
+</div>
+<div class="panel-body">
+    <form accept-charset="UTF-8" role="form" ng-submit="form.submit()">
+    <fieldset>
+        <alert ng-show="form.error.__all__" close="form.closeAlert('__all__')" type="danger">[[form.error.__all__]]</alert>
+        <input type="submit" class="btn btn-danger btn-inline" type="submit" value="Удалить" focus-me="form.focus.delete" />
+        <input type="button" class="btn btn-warning btn-inline" ng-click="closeModal()" value="Отмена" />
+    </fieldset>
+    </form>
+</div>

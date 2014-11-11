@@ -9,7 +9,8 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider
         .otherwise('/main')
         .when('', '/main')
-        .when('/articles', '/articles/list');
+        .when('/articles', '/articles/list')
+        .when('/articles/{articleId:[0-9]+}', '/articles/{articleId:[0-9]+}/detail');
 
     $stateProvider
         .state('main', {
@@ -26,9 +27,23 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
             controller: 'ArticleListCtrl',
         })
         .state('articles.item', {
-            url: '/{articleId:[0-9]*}',
+            url: '/{articleId:[0-9]+}',
             templateUrl: 'static/articles/item.html',
+            resolve:{
+                articleId: ['$stateParams', function($stateParams){
+                    return $stateParams.articleId;
+                }]
+            },
+        })
+        .state('articles.item.detail', {
+            url: '/detail',
+            templateUrl: 'static/articles/detail.html',
             controller: 'ArticleItemCtrl',
+        })
+        .state('articles.item.edit', {
+            url: '/edit',
+            templateUrl: 'static/articles/edit.html',
+            controller: 'ArticleEditCtrl',
         })
         .state('article-add', {
             url: '/articles/add',

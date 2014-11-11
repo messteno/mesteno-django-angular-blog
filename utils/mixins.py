@@ -20,7 +20,7 @@ def _ajax_response(request, response, form=None):
                 status = 200
             else:
                 status = 400
-                data['form_errors'] = form._errors
+                data = form._errors
             if hasattr(response, 'render'):
                 response.render()
         return HttpResponse(json.dumps(data),

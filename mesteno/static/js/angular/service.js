@@ -16,7 +16,7 @@ var Profile = function(djResource, $http) {
 };
 
 var Article = function(djResource) {
-    var Article = djResource('/api/articles/:articleId', {articleId: '@articleId'});
+    var Article = djResource('/api/articles/:articleId/', {articleId: '@articleId'});
     return Article;
 };
 
@@ -25,6 +25,8 @@ var Form = function($cookies) {
         this.disabled = false;
         this.data = {};
         this.error = {};
+        this.focus = {};
+        this.method = 'POST';
         this.processLink = processLink;
 
         this.submit = function() {
@@ -34,7 +36,7 @@ var Form = function($cookies) {
                 self.disabled = true;
                 var xhr = new XMLHttpRequest();
 
-                xhr.open('POST', self.processLink, true);
+                xhr.open(self.method, self.processLink, true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr.setRequestHeader('X-CSRFToken', $cookies.csrftoken);
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -48,14 +50,27 @@ var Form = function($cookies) {
                 }
                 xhr.onload = function() {
                     self.error = {};
+                    self.focus = {};
                     var data = {};
                     try {
                         data = $.parseJSON(this.responseText);
-                        for(var key in data.form_errors) {
-                            self.error[key] = data.form_errors[key][0];
+                        if (xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
+                            for(var key in data) {
+                                if (Object.keys(self.focus).length == 0) {
+                                    self.focus[key] = true;
+                                }
+                                self.error[key] = data[key][0];
+                            }
                         }
-                    } catch (e) {
-                        self.error['__all__'] = 'Ошибка при обработке формы';
+                    } catch(e) {
+                        if (xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
+                            self.error['__all__'] = 'Ошибка при обработке формы';
+                        }
+                    }
+
+                    if (self.focus.__all__ != undefined) {
+                        self.focus[Object.keys(self.data)[0]] = self.focus.__all__;
+                        delete self.focus.__all__;
                     }
 
                     if (Object.keys(self.error).length == 0) {
