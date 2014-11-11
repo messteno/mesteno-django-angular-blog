@@ -15,6 +15,11 @@ var Profile = function(djResource, $http) {
     return Profile;
 };
 
+var Article = function(djResource) {
+    var Article = djResource('/api/articles/:id');
+    return Article;
+};
+
 var Form = function($cookies) {
     var Form = function($scope, processLink, success, error) {
         this.disabled = false;
@@ -82,5 +87,6 @@ var Form = function($cookies) {
 angular
     .module('mestenoServices', ['ngResource'])
     .factory('Profile', Profile)
+    .factory('Article', Article)
     .factory('Form', Form);
 

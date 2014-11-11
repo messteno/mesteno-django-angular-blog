@@ -12,7 +12,7 @@ html {
 }
 
 #content {
-    margin-bottom: 50px;
+    margin-bottom: 70px;
 }
 
 #footer {
@@ -34,10 +34,6 @@ html {
     padding-bottom: 7px;
 }
 
-.article-add {
-    margin-bottom: 20px;
-}
-
 .article-add .panel-title {
     font-weight: bold;
     font-size: 20px;
@@ -48,6 +44,7 @@ html {
     display: inline-block;
 }
 
-.article-add .article-datepicker td {
+.article-add .article-datepicker td,
+.article-add .article-datepicker th {
     padding: 2px;
 }

@@ -1,6 +1,6 @@
 import json
 from django.http import HttpResponse, HttpResponseRedirect, \
-        HttpResponsePermanentRedirect
+    HttpResponsePermanentRedirect
 
 
 def _ajax_response(request, response, form=None):

@@ -18,15 +18,16 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
         })
         .state('articles', {
             url: '/articles',
-            templateUrl: 'static/articles.html'
+            templateUrl: 'static/articles.html',
         })
         .state('articles.list', {
             url: '/list',
-            templateUrl: 'static/articles/index.html'
+            templateUrl: 'static/articles/index.html',
+            controller: 'ArticleListCtrl',
         })
         .state('articles.item', {
             url: '/{id:[0-9]*}',
-            templateUrl: 'static/articles/item.html'
+            templateUrl: 'static/articles/item.html',
         })
         .state('article-add', {
             url: '/articles/add',

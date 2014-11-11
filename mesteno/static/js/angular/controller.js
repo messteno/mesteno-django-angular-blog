@@ -30,8 +30,18 @@ app.controller('LoginModalCtrl', function($scope, $modalInstance, $location, $wi
     });
 });
 
+app.controller('ArticleListCtrl', function($scope, Article) {
+    $scope.articles = Article.query();
+});
+
 app.controller('ArticleAddCtrl', function($scope, $location, Form) {
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path(data.location);
     });
+    var date = new Date();
+    $scope.form.data.published = date.getTime();
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
 });

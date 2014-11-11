@@ -7,11 +7,12 @@ from django.views.generic.base import TemplateView
 from rest_framework import routers
 from .viewsets import UserViewSet
 from .views import ProfileView, LogoutView, LoginView
-from blog.views import ArticleAddView
+from blog.viewsets import ArticleViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'articles', ArticleViewSet)
 
 
 urlpatterns = patterns(
@@ -20,11 +21,11 @@ urlpatterns = patterns(
         name='index'),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/articles/add/', ArticleViewSet.as_view({'post': 'create'})),
     url(r'^api/profile/', ProfileView.as_view()),
     url(r'^api/logout/', LogoutView.as_view()),
     url(r'^api/login/', LoginView.as_view()),
-    url(r'^api/articles/add/', ArticleAddView.as_view()),
+    url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
         namespace='rest_framework')),
     url(r'^blog/', include('blog.urls')),
