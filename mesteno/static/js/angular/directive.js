@@ -1,11 +1,11 @@
 'use strict';
 
-app.directive('dateFormat', function() {
+app.directive('dateFormat', function($filter) {
   return {
 		require: 'ngModel',
         link: function(scope, element, attrs, ngModel) {
             ngModel.$parsers.push(function(viewValue) {
-                return +viewValue;
+                return $filter('date')(viewValue, 'yyyy-MM-dd hh:mm:ss');
             });
         }
 	}

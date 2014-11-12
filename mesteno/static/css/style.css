@@ -3,6 +3,10 @@ html {
     min-height: 100%;
 }
 
+h1 {
+    margin-bottom: 20px;
+}
+
 .glyphicon {
     margin-right:5px;
 }
@@ -66,3 +70,19 @@ html {
 .article-add .article-datepicker th {
     padding: 2px;
 }
+
+.article-detail h1 {
+    font-size: 4em;
+}
+
+.article-detail p.meta {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    margin: 20px 0;
+}
+
+.article-detail .article-content {
+    font-size: 1.5em;
+}
+

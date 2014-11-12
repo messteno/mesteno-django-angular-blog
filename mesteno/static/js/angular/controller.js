@@ -35,8 +35,10 @@ app.controller('ArticleListCtrl', function($scope, Article) {
     $scope.articles = Article.query();
 });
 
-app.controller('ArticleItemCtrl', function($scope, $stateParams, $modal, Article, Form) {
-    $scope.article = Article.get({articleId: $stateParams.articleId});
+app.controller('ArticleItemCtrl', function($scope, $stateParams, $modal, $filter, Article, Form) {
+    $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
+        $scope.article.published = $filter('date')($scope.article.published, 'yyyy-MM-dd hh:mm:ss');
+    });
     $scope.deleteArticle = function() {
         var modalInstance = $modal.open({
             templateUrl: 'static/articles/delete.html',
@@ -52,11 +54,12 @@ app.controller('ArticleDeleteCtrl', function($scope, $stateParams, $modalInstanc
         $modalInstance.close();
         $location.path('/articles/list');
     });
+    $scope.form.method = 'DELETE';
     $scope.form.focus.delete = true;
+
     $scope.closeModal = function() {
         $modalInstance.close();
     };
-    $scope.form.method = 'DELETE';
 });
 
 app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $location, Article, Form) {
@@ -70,17 +73,16 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
     $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
         $scope.form.data.title = $scope.article.title;
         $scope.form.data.content = $scope.article.content;
-        var date = new Date();
-        $scope.form.data.published = date.getTime();
+        $scope.form.data.published = $scope.article.published;
     });
 });
 
-app.controller('ArticleAddCtrl', function($scope, $location, Form) {
+app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form) {
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path('/articles/list');
     });
     $scope.form.focus.title = true;
     var date = new Date();
-    $scope.form.data.published = date.getTime();
+    $scope.form.data.published = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');
 });
 

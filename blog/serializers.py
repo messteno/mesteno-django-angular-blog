@@ -7,7 +7,8 @@ from django.db import models
 class ArticleSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=True)
     content = serializers.CharField(required=True)
+    published = serializers.DateTimeField(required=True)
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'content')
+        fields = ('id', 'title', 'content', 'published')

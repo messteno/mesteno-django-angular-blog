@@ -55,6 +55,7 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
 var app = angular
     .module('mesteno', [
         'ngRoute',
+        'ngResource',
         'ngCookies',
         'ngAnimate',
         'djangoRESTResources',
