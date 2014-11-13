@@ -109,19 +109,25 @@ STATICFILES_FINDERS = (
 BOWER_COMPONENTS_ROOT = BASE_PATH + '/bower'
 
 BOWER_INSTALLED_APPS = (
-    'angular-ui#0.4.0',
-    'angular-route#1.3.1',
-    'angular-animate#1.3.1',
-    'angular-bootstrap#0.11.2',
-    'angular-cookies#1.3.2',
+    'angular-highlightjs#0.3.2',
+    'angular-sanitize#1.3.2',
     'angular-django-rest-resource#1.0.3',
-    'angular#1.3.2',
-    'jquery#2.1.1',
-    'angular-resource#1.3.1',
-    'angular-route-segment#1.3.3',
+    'angular-animate#1.3.1',
+    'angular-ui-ace#0.1.1',
+    'ace-builds#1.1.8',
     'bootstrap#3.3.0',
-    'angular-loading-bar#0.6.0'
-)
+    'angular-cookies#1.3.2',
+    'angular-loading-bar#0.6.0',
+    'angular-route#1.3.1',
+    'angular-ui-router#0.2.11',
+    'jquery#2.1.1',
+    'angular#1.3.2',
+    'highlightjs#8.3.0',
+    'angular-bootstrap#0.11.2',
+    'ace#1.1.8',
+    'angular-ui#0.4.0',
+    'angular-resource#1.3.1',
+    'angular-route-segment#1.3.3')
 
 MEDIA_URL = '/media/'
 

@@ -12,3 +12,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def pre_save(self, obj):
+        obj.user = self.request.user

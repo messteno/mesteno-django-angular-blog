@@ -5,13 +5,13 @@
         <h1>[[article.title]]</h1>
     </header>
     <p class="meta">
-        <time>
+        <time datetime="[[article.published]]">
             [[article.published]]
         </time>
+        <span class="by">by [[article.user]]</span>
     </p>
-    <section class="article-content">
-        [[article.content]]
-    </section>
+
+    <div compile-template="article.code_content"></div>
 
     <div class="row" ng-show="profile.is_logged_in">
         <div class="col-md-12 mt-20">

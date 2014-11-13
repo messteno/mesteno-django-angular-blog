@@ -5,7 +5,7 @@
             <accordion-heading>
                 <h4 class="panel-title">
                     <i class="glyphicon glyphicon-file"></i>
-                    Добавить новую статью
+                    [[form.action]]
                 </h4>
             </accordion-heading>
             <div class="row">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <alert ng-show="form.error.content" type="danger">[[form.error.content]]</alert>
-                        <textarea class="form-control" placeholder="Содержание" rows="10" ng-model="form.data.content" focus-me="form.focus.content"></textarea>
+                        <div ui-ace="{onLoad: aceLoaded}" class="form-control editor" placeholder="Содержание" ng-model="form.data.content" focus-me="form.focus.content"></div>
                     </div>
                 </div>
             </div>
@@ -39,13 +39,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Заголовок страницы" required />
+                        <input type="text" class="form-control" placeholder="Заголовок страницы" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Описание" required />
+                        <input type="text" class="form-control" placeholder="Описание" />
                     </div>
                     <div class="form-group mb-0">
-                        <textarea class="form-control" placeholder="Ключевые слова" required></textarea>
+                        <textarea class="form-control" placeholder="Ключевые слова"></textarea>
                     </div>
                 </div>
             </div>

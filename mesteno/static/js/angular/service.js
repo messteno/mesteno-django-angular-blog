@@ -20,8 +20,8 @@ var Article = function(djResource) {
     return Article;
 };
 
-var Form = function($cookies) {
-    var Form = function($scope, processLink, success, error) {
+var Form = function($cookies, $http) {
+    var Form = function($scope, processLink, successCallback, errorCallback) {
         this.disabled = false;
         this.data = {};
         this.error = {};
@@ -30,66 +30,60 @@ var Form = function($cookies) {
         this.processLink = processLink;
 
         this.submit = function() {
-            if (this.processLink && this.data) {
-                var self = this;
+            if (!this.processLink || !this.data) 
+                return false;
 
-                self.disabled = true;
-                var xhr = new XMLHttpRequest();
+            var self = this;
+            self.disabled = true;
 
-                xhr.open(self.method, self.processLink, true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.setRequestHeader('X-CSRFToken', $cookies.csrftoken);
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.onerror = function(e) {
-                    if (error) {
-                        error(e);
-                    }
-                    self.error['__all__'] = 'Ошибка при обработке формы';
-                    self.disabled = false;
-                    $scope.$apply();
+            $http({
+                method: self.method,
+                url: processLink,
+                data: self.data,
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': $cookies.csrftoken,
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
-                xhr.onload = function() {
-                    self.error = {};
-                    self.focus = {};
-                    var data = {};
-                    try {
-                        data = $.parseJSON(this.responseText);
-                        if (xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
-                            for(var key in data) {
-                                if (Object.keys(self.focus).length == 0) {
-                                    self.focus[key] = true;
-                                }
-                                self.error[key] = data[key][0];
-                            }
+            })
+            .success(function(data, status) {
+                self.error = {};
+                self.focus = {};
+                self.data = {};
+                if (successCallback) {
+                    successCallback(data);
+                }
+                self.disabled = false;
+            })
+            .error(function(data) {
+                self.error = {};
+                self.focus = {};
+                try {
+                    for(var key in data) {
+                        if (Object.keys(self.focus).length == 0) {
+                            self.focus[key] = true;
                         }
-                    } catch(e) {
-                        if (xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
-                            self.error['__all__'] = 'Ошибка при обработке формы';
-                        }
+                        self.error[key] = data[key][0];
                     }
+                } catch(e) {
+                    self.error['__all__'] = 'Ошибка при обработке формы';
+                }
 
-                    if (self.focus.__all__ != undefined) {
-                        self.focus[Object.keys(self.data)[0]] = self.focus.__all__;
-                        delete self.focus.__all__;
-                    }
+                if (Object.keys(self.error).length == 0) {
+                    self.error['__all__'] = 'Ошибка при обработке формы';
+                }
 
-                    if (Object.keys(self.error).length == 0) {
-                        if (success) {
-                            success(data);
-                        }
-                        self.data = {};
-                    }
-                    else {
-                        if (error) {
-                            error();
-                        }
-                    }
+                if (self.focus.__all__ != undefined) {
+                    self.focus[Object.keys(self.data)[0]] = self.focus.__all__;
+                    delete self.focus.__all__;
+                }
 
-                    self.disabled = false;
-                    $scope.$apply();
-                };
-                xhr.send($.param(self.data));
-            }
+                if (errorCallback) {
+                    errorCallback();
+                }
+
+                self.disabled = false;
+            });
         };
 
         this.closeAlert = function(name) {

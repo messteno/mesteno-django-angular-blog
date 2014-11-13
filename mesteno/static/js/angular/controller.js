@@ -20,6 +20,12 @@ app.controller('MainCtrl', function($scope, $modal, $window, $location, loader, 
             scope: $scope,
         });
     };
+
+    $scope.aceLoaded = function(editor) {
+        editor.setHighlightActiveLine(false);
+        editor.setShowPrintMargin(false);
+        editor.renderer.setShowGutter(false);
+    };
 });
 
 app.controller('LoginModalCtrl', function($scope, $modalInstance, $location, $window, Form) {
@@ -35,9 +41,10 @@ app.controller('ArticleListCtrl', function($scope, Article) {
     $scope.articles = Article.query();
 });
 
-app.controller('ArticleItemCtrl', function($scope, $stateParams, $modal, $filter, Article, Form) {
+app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams, $modal, $filter, Article, Form) {
     $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
         $scope.article.published = $filter('date')($scope.article.published, 'yyyy-MM-dd hh:mm:ss');
+        // $scope.article.content = $sce.trustAsHtml($scope.article.content);
     });
     $scope.deleteArticle = function() {
         var modalInstance = $modal.open({
@@ -68,6 +75,7 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
         $location.path('/articles/' + articleId);
     });
     $scope.form.focus.title = true;
+    $scope.form.action = 'Редактировать статью';
     $scope.form.method = 'PUT';
 
     $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
@@ -81,6 +89,7 @@ app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form) {
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path('/articles/list');
     });
+    $scope.form.action = 'Новая статья';
     $scope.form.focus.title = true;
     var date = new Date();
     $scope.form.data.published = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');

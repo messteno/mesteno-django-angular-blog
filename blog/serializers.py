@@ -5,10 +5,12 @@ from django.db import models
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    user = serializers.RelatedField(many=False)
     title = serializers.CharField(required=True)
     content = serializers.CharField(required=True)
+    code_content = serializers.CharField(required=False)
     published = serializers.DateTimeField(required=True)
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'content', 'published')
+        fields = ('id', 'user', 'title', 'content', 'code_content', 'published')
