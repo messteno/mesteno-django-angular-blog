@@ -10,7 +10,7 @@
             <link rel="stylesheet" href="{% static "angular-ui/build/angular-ui.css" %}">
             <link rel="stylesheet" href="{% static "highlightjs/styles/monokai.css" %}">
 
-            <link rel="stylesheet" href="{% static "css/style.css" %}">
+            <link rel="stylesheet" href="{% static "mesteno/css/style.css" %}">
 
             <script src="{% static "highlightjs/highlight.pack.js" %}"></script>
             <script src="{% static "ace-builds/src-noconflict/ace.js" %}"></script>
@@ -31,10 +31,10 @@
             <script src="{% static "angular-ui-ace/ui-ace.js" %}"></script>
             <script src="{% static "angular-file-upload/angular-file-upload.js" %}"></script>
 
-            <script src="{% static "js/angular/app.js" %}"></script>
-            <script src="{% static "js/angular/service.js" %}"></script>
-            <script src="{% static "js/angular/controller.js" %}"></script>
-            <script src="{% static "js/angular/directive.js" %}"></script>
+            <script src="{% static "mesteno/js/app.js" %}"></script>
+            <script src="{% static "mesteno/js/service.js" %}"></script>
+            <script src="{% static "mesteno/js/controller.js" %}"></script>
+            <script src="{% static "mesteno/js/directive.js" %}"></script>
         {% else %}
             {% compress css %}
             <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.min.css" %}">
@@ -42,7 +42,7 @@
             <link rel="stylesheet" href="{% static "angular-ui/build/angular-ui.min.css" %}">
             <link rel="stylesheet" href="{% static "highlightjs/styles/monokai.css" %}">
 
-            <link rel="stylesheet" href="{% static "css/style.css" %}">
+            <link rel="stylesheet" href="{% static "mesteno/css/style.css" %}">
             {% endcompress %}
 
             {% compress js %}
@@ -65,10 +65,10 @@
             <script src="{% static "angular-ui-ace/ui-ace.min.js" %}"></script>
             <script src="{% static "angular-file-upload/angular-file-upload.min.js" %}"></script>
 
-            <script src="{% static "js/angular/app.js" %}"></script>
-            <script src="{% static "js/angular/service.js" %}"></script>
-            <script src="{% static "js/angular/controller.js" %}"></script>
-            <script src="{% static "js/angular/directive.js" %}"></script>
+            <script src="{% static "mesteno/js/app.js" %}"></script>
+            <script src="{% static "mesteno/js/service.js" %}"></script>
+            <script src="{% static "mesteno/js/controller.js" %}"></script>
+            <script src="{% static "mesteno/js/directive.js" %}"></script>
             {% endcompress %}
         {% endif %}
 
@@ -100,6 +100,7 @@
                             {% else %}
                             <li><a href="" ng-click="login()">Войти</a></li>
                             {% endif %}
+                            {% csrf_token %}
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->

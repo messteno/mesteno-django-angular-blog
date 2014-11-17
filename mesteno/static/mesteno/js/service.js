@@ -35,6 +35,7 @@ var Form = function($cookies, $http) {
 
             var self = this;
             self.disabled = true;
+            console.log($cookies.csrftoken);
 
             $http({
                 method: self.method,
@@ -44,6 +45,15 @@ var Form = function($cookies, $http) {
                     'Content-type': 'application/x-www-form-urlencoded',
                     'X-CSRFToken': $cookies.csrftoken,
                     'X-Requested-With': 'XMLHttpRequest'
+                },
+                cache: false,
+                transformResponse: function (data, headersGetter) {
+                    try {
+                        var jsonObject = JSON.parse(data);
+                        return jsonObject;
+                    } catch (e) {
+                    }
+                    return {};
                 }
             })
             .success(function(data, status) {
@@ -56,20 +66,24 @@ var Form = function($cookies, $http) {
                 self.disabled = false;
             })
             .error(function(data) {
-                self.error = {};
+                var firstFocusKey = Object.keys(self.focus)[0];
                 self.focus = {};
+                self.error = {};
+
                 try {
                     for(var key in data) {
-                        if (Object.keys(self.focus).length == 0) {
+                        if (Object.keys(self.focus).length == 0 || key === firstFocusKey) {
+                            self.focus = {};
                             self.focus[key] = true;
                         }
                         self.error[key] = data[key][0];
                     }
                 } catch(e) {
+                    self.focus[firstFocusKey] = true;
                     self.error['__all__'] = 'Ошибка при обработке формы';
                 }
-
                 if (Object.keys(self.error).length == 0) {
+                    self.focus[firstFocusKey] = true;
                     self.error['__all__'] = 'Ошибка при обработке формы';
                 }
 

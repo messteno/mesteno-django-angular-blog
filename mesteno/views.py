@@ -33,12 +33,12 @@ class LogoutView(View):
         logout(request)
         response = {'status': 'ok'}
         return HttpResponse(json.dumps(response),
-                            content_type="application/json")
+                            content_type='application/json')
 
 
 class LoginView(AjaxCapableProcessFormViewMixin, FormView):
     form_class = AuthenticationForm
-    template_name = 'angular/login.html'
+    template_name = 'mesteno/login.html'
     success_url = '/'
 
     def form_valid(self, form):

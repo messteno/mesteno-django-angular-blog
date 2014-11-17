@@ -14,7 +14,7 @@ app.controller('MainCtrl', function($scope, $modal, $window, $location, loader, 
 
     $scope.login = function() {
         var modalInstance = $modal.open({
-            templateUrl: '/static/login.html',
+            templateUrl: '/static/mesteno/login.html',
             controller: 'LoginModalCtrl',
             windowClass: 'login-modal',
             scope: $scope,
@@ -43,7 +43,7 @@ app.controller('ArticleListCtrl', function($scope, $modal, Article) {
     $scope.articleList.articles = Article.query();
     $scope.deleteArticle = function(articleId) {
         var modalInstance = $modal.open({
-            templateUrl: 'static/articles/delete.html',
+            templateUrl: '/static/mesteno/articles/delete.html',
             controller: 'ArticleDeleteCtrl',
             windowClass: 'article-delete-modal',
             scope: $scope,
@@ -64,7 +64,7 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
     });
     $scope.deleteArticle = function() {
         var modalInstance = $modal.open({
-            templateUrl: 'static/articles/delete.html',
+            templateUrl: '/static/mesteno/articles/delete.html',
             controller: 'ArticleDeleteCtrl',
             windowClass: 'article-delete-modal',
             scope: $scope,

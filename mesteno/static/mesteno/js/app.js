@@ -55,24 +55,24 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('404', {
             url: '/404',
-            templateUrl: '/static/404.html',
+            templateUrl: '/static/mesteno/404.html',
         })
         .state('main', {
             url: '/main',
-            templateUrl: '/static/main.html',
+            templateUrl: '/static/mesteno/main.html',
         })
         .state('articles', {
             url: '/articles',
-            templateUrl: 'static/articles.html',
+            templateUrl: '/static/mesteno/articles.html',
         })
         .state('articles.list', {
             url: '/list',
-            templateUrl: 'static/articles/index.html',
+            templateUrl: '/static/mesteno/articles/index.html',
             controller: 'ArticleListCtrl',
         })
         .state('articles.item', {
             url: '/{articleId:[0-9]+}',
-            templateUrl: 'static/articles/item.html',
+            templateUrl: '/static/mesteno/articles/item.html',
             resolve:{
                 articleId: ['$stateParams', function($stateParams){
                     return $stateParams.articleId;
@@ -81,17 +81,17 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
         })
         .state('articles.item.detail', {
             url: '/detail',
-            templateUrl: 'static/articles/detail.html',
+            templateUrl: '/static/mesteno/articles/detail.html',
             controller: 'ArticleItemCtrl',
         })
         .state('articles.item.edit', {
             url: '/edit',
-            templateUrl: 'static/articles/add.html',
+            templateUrl: '/static/mesteno/articles/add.html',
             controller: 'ArticleEditCtrl',
         })
         .state('article-add', {
             url: '/articles/add',
-            templateUrl: 'static/articles/add.html',
+            templateUrl: '/static/mesteno/articles/add.html',
             controller: 'ArticleAddCtrl',
         });
 };

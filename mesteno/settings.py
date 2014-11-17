@@ -96,7 +96,7 @@ STATIC_ROOT = BASE_PATH + '/static'
 
 STATICFILES_DIRS = (
     path('static'),
-    path('templates', 'angular'),
+    path('templates'),
 )
 
 STATICFILES_FINDERS = (
@@ -120,7 +120,6 @@ BOWER_INSTALLED_APPS = (
     'angular-loading-bar#0.6.0',
     'angular-route#1.3.1',
     'angular-ui-router#0.2.11',
-    'jquery#2.1.1',
     'angular#1.3.2',
     'highlightjs#8.3.0',
     'angular-bootstrap#0.11.2',
