@@ -7,8 +7,12 @@ h1 {
     margin-bottom: 20px;
 }
 
-.glyphicon {
-    margin-right:5px;
+.mr-2 {
+    margin-right: 2px;
+}
+
+.mr-5 {
+    margin-right: 5px;
 }
 
 .mb-0 {
@@ -98,4 +102,20 @@ h1 {
 
 .article-add .editor {
     font-size: 1.3em;
+}
+
+.ace_hidden-cursors {
+    opacity: 0;
+}
+
+.ace-tm {
+    color: #333 !important;
+}
+
+.ace_content {
+    padding: 7px !important;
+}
+
+.article-detail-icon {
+    margin-left: 10px;
 }

@@ -11,58 +11,52 @@ var baseSettings = function($httpProvider, $interpolateProvider) {
          * @param {Object} obj
          * @return {String}
          */ 
-        var param = function(obj)
-        {
+        var param = function(obj) {
             var query = '';
             var name, value, fullSubName, subName, subValue, innerObj, i;
 
-            for(name in obj)
-            {
+            for(name in obj) {
                 value = obj[name];
 
-                if(value instanceof Array)
-                {
-                    for(i=0; i<value.length; ++i)
-                    {
+                if(value instanceof Array) {
+                    for(i=0; i<value.length; ++i) {
                         subValue = value[i];
                         fullSubName = name + '[' + i + ']';
                         innerObj = {};
                         innerObj[fullSubName] = subValue;
                         query += param(innerObj) + '&';
                     }
-                }
-                else if(value instanceof Object)
-                {
-                    for(subName in value)
-                    {
+                } else if(value instanceof Object) {
+                    for(subName in value) {
                         subValue = value[subName];
                         fullSubName = name + '[' + subName + ']';
                         innerObj = {};
                         innerObj[fullSubName] = subValue;
                         query += param(innerObj) + '&';
                     }
-                }
-                else if(value !== undefined && value !== null)
-                {
+                } else if (value !== undefined && value !== null) {
                     query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
                 }
             }
-
             return query.length ? query.substr(0, query.length - 1) : query;
         };
-
         return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
 };
 
 var routerSettings = function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider
-        .otherwise('/main')
         .when('', '/main')
+        .when('/', '/main')
         .when('/articles', '/articles/list')
-        .when('/articles/{articleId:[0-9]+}', '/articles/{articleId:[0-9]+}/detail');
+        .when('/articles/{articleId:[0-9]+}', '/articles/{articleId:[0-9]+}/detail')
+        .otherwise('/404');
 
     $stateProvider
+        .state('404', {
+            url: '/404',
+            templateUrl: '/static/404.html',
+        })
         .state('main', {
             url: '/main',
             templateUrl: '/static/main.html',
@@ -121,6 +115,7 @@ var app = angular
         'ui.bootstrap',
         'ui.router',
         'ui.ace',
+        'angularFileUpload',
         'hljs',
     ])
     .config(baseSettings)

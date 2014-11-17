@@ -22,6 +22,7 @@ app.controller('MainCtrl', function($scope, $modal, $window, $location, loader, 
     };
 
     $scope.aceLoaded = function(editor) {
+        editor.setDisplayIndentGuides(false)
         editor.setHighlightActiveLine(false);
         editor.setShowPrintMargin(false);
         editor.renderer.setShowGutter(false);
@@ -37,14 +38,29 @@ app.controller('LoginModalCtrl', function($scope, $modalInstance, $location, $wi
     $scope.form.focus.username = true;
 });
 
-app.controller('ArticleListCtrl', function($scope, Article) {
-    $scope.articles = Article.query();
+app.controller('ArticleListCtrl', function($scope, $modal, Article) {
+    $scope.articleList = {};
+    $scope.articleList.articles = Article.query();
+    $scope.deleteArticle = function(articleId) {
+        var modalInstance = $modal.open({
+            templateUrl: 'static/articles/delete.html',
+            controller: 'ArticleDeleteCtrl',
+            windowClass: 'article-delete-modal',
+            scope: $scope,
+            resolve: {
+                articleId: function() {
+                    return articleId;
+                }
+            }
+        });
+    };
 });
 
-app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams, $modal, $filter, Article, Form) {
+app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams, $modal, $location, $filter, Article, Form) {
     $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
         $scope.article.published = $filter('date')($scope.article.published, 'yyyy-MM-dd hh:mm:ss');
-        // $scope.article.content = $sce.trustAsHtml($scope.article.content);
+    }, function() {
+        $location.path('404');
     });
     $scope.deleteArticle = function() {
         var modalInstance = $modal.open({
@@ -52,13 +68,19 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
             controller: 'ArticleDeleteCtrl',
             windowClass: 'article-delete-modal',
             scope: $scope,
+            resolve: {
+                articleId: function() {
+                    return $stateParams.articleId;
+                }
+            }
         });
     };
 });
 
-app.controller('ArticleDeleteCtrl', function($scope, $stateParams, $modalInstance, $location, Form) {
-    $scope.form = new Form($scope, '/api/articles/' + $stateParams.articleId + '/', function(data) {
+app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, Article, Form, articleId) {
+    $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
         $modalInstance.close();
+        $scope.articleList.articles = Article.query();
         $location.path('/articles/list');
     });
     $scope.form.method = 'DELETE';
@@ -82,10 +104,12 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
         $scope.form.data.title = $scope.article.title;
         $scope.form.data.content = $scope.article.content;
         $scope.form.data.published = $scope.article.published;
+    }, function() {
+        $location.path('404');
     });
 });
 
-app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form) {
+app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form, FileUploader) {
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path('/articles/list');
     });
@@ -93,5 +117,6 @@ app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form) {
     $scope.form.focus.title = true;
     var date = new Date();
     $scope.form.data.published = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');
+    $scope.uploader = new FileUploader();
 });
 

@@ -16,10 +16,21 @@
                     </div>
                     <div class="form-group">
                         <alert ng-show="form.error.content" type="danger">[[form.error.content]]</alert>
-                        <div ui-ace="{onLoad: aceLoaded}" class="form-control editor" placeholder="Содержание" ng-model="form.data.content" focus-me="form.focus.content"></div>
+                        <div ui-ace="{onLoad: aceLoaded}" class="form-control editor" ng-model="form.data.content" focus-me="form.focus.content"></div>
                     </div>
                 </div>
             </div>
+            <!-- <div class="row"> -->
+            <!--     <div class="col&#45;md&#45;12"> -->
+            <!--         <input type="file" nv&#45;file&#45;select uploader="uploader"/><br/> -->
+            <!--         <ul> -->
+            <!--             <li ng&#45;repeat="item in uploader.queue"> -->
+            <!--                 Name: <span ng&#45;bind="item.file.name"></span><br/> -->
+            <!--                 <button ng&#45;click="item.upload()">upload</button> -->
+            <!--             </li> -->
+            <!--         </ul> -->
+            <!--     </div> -->
+            <!-- </div> -->
             <div class="row">
                 <div class="col-md-12">
                     <alert ng-show="form.error.published" type="danger">[[form.error.published]]</alert>
@@ -52,6 +63,6 @@
         </accordion-group>
     </accordion>
     <button class="btn btn-success btn-lg" ng-click="form.submit()">
-        <i class="glyphicon glyphicon-floppy-disk"></i>Сохранить
+        <i class="glyphicon glyphicon-floppy-disk mr-5"></i>Сохранить
     </button>
 </div>
