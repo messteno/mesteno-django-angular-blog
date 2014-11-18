@@ -13,7 +13,7 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 BASE_PATH = os.path.dirname(PROJECT_PATH)
 
 TEST_PEP8_DIRS = [os.path.dirname(PROJECT_PATH), ]
-TEST_PEP8_EXCLUDE = ['.env', 'migrations', ]
+TEST_PEP8_EXCLUDE = ['.env', 'migrations', 'static', 'bower', ]
 
 path = lambda *args: os.path.join(PROJECT_PATH, *args)
 
@@ -78,7 +78,7 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'ru-Ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
