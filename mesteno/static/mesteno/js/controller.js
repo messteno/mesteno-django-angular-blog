@@ -56,7 +56,9 @@ app.controller('ArticleListCtrl', function($scope, $modal, Article) {
     };
 });
 
-app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams, $modal, $location, $filter, Article, Form) {
+app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
+                                           $modal, $location, $filter, Article, 
+                                           Category, Form) {
     $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
         $scope.article.published = $filter('date')($scope.article.published, 'yyyy-MM-dd hh:mm:ss');
     }, function() {
@@ -75,6 +77,9 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
             }
         });
     };
+
+    $scope.categories = Category.query(function() {
+    });
 });
 
 app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, Article, Form, articleId) {
@@ -91,7 +96,7 @@ app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, 
     };
 });
 
-app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $location, Article, Form) {
+app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $location, Article, Category, Form) {
     var articleId = $stateParams.articleId;
     $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
         $location.path('/articles/' + articleId);
@@ -104,12 +109,15 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
         $scope.form.data.title = $scope.article.title;
         $scope.form.data.content = $scope.article.content;
         $scope.form.data.published = $scope.article.published;
+        $scope.form.data.category = $scope.article.category;
     }, function() {
         $location.path('404');
     });
+
+    $scope.categories = Category.query();
 });
 
-app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form, FileUploader) {
+app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form, FileUploader, Category) {
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path('/articles/list');
     });
@@ -118,5 +126,6 @@ app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form, File
     var date = new Date();
     $scope.form.data.published = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');
     $scope.uploader = new FileUploader();
+    $scope.categories = Category.query();
 });
 

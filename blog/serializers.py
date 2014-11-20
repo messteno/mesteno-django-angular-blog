@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from blog.models import Article
+from blog.models import Article, Category
 from django.db import models
 
 
@@ -14,4 +14,12 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('id', 'user', 'title', 'content',
-                  'code_content', 'published')
+                  'code_content', 'category', 'published')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
+
+    class Meta:
+        model = Category
+        fields = ('id', 'name')

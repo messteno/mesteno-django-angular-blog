@@ -7,12 +7,13 @@ from django.views.generic.base import TemplateView
 from rest_framework import routers
 from .viewsets import UserViewSet
 from .views import ProfileView, LogoutView, LoginView
-from blog.viewsets import ArticleViewSet
+from blog.viewsets import ArticleViewSet, CategoryViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'articles', ArticleViewSet)
+router.register(r'categories', CategoryViewSet)
 
 
 urlpatterns = patterns(
@@ -22,8 +23,6 @@ urlpatterns = patterns(
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/articles/add/', ArticleViewSet.as_view({'post': 'create'})),
-    url(r'^api/articles/([0-9]+)/edit/',
-        ArticleViewSet.as_view({'post': 'edit'})),
     url(r'^api/profile/', ProfileView.as_view()),
     url(r'^api/logout/', LogoutView.as_view()),
     url(r'^api/login/', LoginView.as_view()),

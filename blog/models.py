@@ -4,12 +4,28 @@ from django.utils import timezone
 from django.db import models
 
 
+class Category(models.Model):
+    name = models.CharField(null=False, blank=False, max_length=128,
+                            verbose_name=u'Название')
+
+    class Meta:
+        verbose_name = u'Категория'
+        verbose_name_plural = u'Категории'
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.name
+
+
 class Article(models.Model):
     user = models.ForeignKey(User, null=True, related_name='user')
     title = models.TextField(null=False, blank=False, default='Title',
                              verbose_name=u'Заголовок')
     content = models.TextField(null=False, blank=False, default='Content',
                                verbose_name=u'Содержание')
+    category = models.ForeignKey(Category, null=True, blank=True)
     published = models.DateTimeField(null=False, auto_now_add=True,
                                      default=timezone.now,
                                      verbose_name=u'Дата публикации')
@@ -46,17 +62,8 @@ class Article(models.Model):
         out += html[old_start:]
         return out
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
-
-class Category(models.Model):
-    name = models.CharField(null=False, blank=False, max_length=128,
-                            verbose_name=u'Название')
-
-    class Meta:
-        verbose_name = u'Категория'
-        verbose_name_plural = u'Категории'
-
     def __unicode__(self):
-        return self.name
+        return self.title

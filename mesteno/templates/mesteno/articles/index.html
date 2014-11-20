@@ -1,10 +1,10 @@
 <h1>Статьи</h1>
 <div ng-repeat="article in articleList.articles" class="article well well-sm">
     <a href ui-sref="articles.item({articleId: article.id})">[[article.title]]</a>
-    <button ng-click="deleteArticle(article.id)" ng-show="profile.is_logged_in" class="btn btn-xs btn-danger pull-right article-detail-icon">
+    <button ng-click="deleteArticle(article.id)" ng-show="article.user == profile.user.username" class="btn btn-xs btn-danger pull-right article-detail-icon">
         <i class="glyphicon glyphicon-trash mr-2"></i>
     </button>
-    <a href ui-sref="articles.item.edit({articleId: article.id})" ng-show="profile.is_logged_in" class="btn btn-xs btn-warning pull-right article-detail-icon">
+    <a href ui-sref="articles.item.edit({articleId: article.id})" ng-show="article.user == profile.user.username" class="btn btn-xs btn-warning pull-right article-detail-icon">
         <i class="glyphicon glyphicon-edit"></i>
     </a>
 </div>

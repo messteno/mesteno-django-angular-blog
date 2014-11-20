@@ -4,8 +4,9 @@ from blog.models import Article, Category
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display_links = ('id', )
-    list_display = ('id', 'title', 'content', 'published', )
-    search_fields = ('title', 'content', )
+    list_display = ('id', 'title', 'content', 'published', 'category', )
+    list_filter = ('category', )
+    search_fields = ('title', 'content', 'category', )
     list_editable = ()
 admin.site.register(Article, ArticleAdmin)
 

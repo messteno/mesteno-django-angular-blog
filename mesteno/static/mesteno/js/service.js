@@ -15,6 +15,11 @@ var Profile = function(djResource, $http) {
     return Profile;
 };
 
+var Category = function(djResource) {
+    var Category = djResource('/api/categories/:categoryId/', {categoryId: '@categoryId'});
+    return Category;
+};
+
 var Article = function(djResource) {
     var Article = djResource('/api/articles/:articleId/', {articleId: '@articleId'});
     return Article;
@@ -111,5 +116,6 @@ angular
     .module('mestenoServices', ['ngResource'])
     .factory('Profile', Profile)
     .factory('Article', Article)
+    .factory('Category', Category)
     .factory('Form', Form);
 
