@@ -38,6 +38,10 @@ app.controller('LoginModalCtrl', function($scope, $modalInstance, $location, $wi
     $scope.form.focus.username = true;
 });
 
+app.controller('ArticleCtrl', function($scope, Category) {
+    $scope.categories = Category.query();
+});
+
 app.controller('ArticleListCtrl', function($scope, $modal, Article) {
     $scope.articleList = {};
     $scope.articleList.articles = Article.query();
@@ -54,6 +58,12 @@ app.controller('ArticleListCtrl', function($scope, $modal, Article) {
             }
         });
     };
+    $scope.categoryFilter = function(categoryId) {
+        if (categoryId == 0)
+            delete $scope.categoryId;
+        else
+            $scope.categoryId = categoryId;
+    }
 });
 
 app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
@@ -77,9 +87,6 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
             }
         });
     };
-
-    $scope.categories = Category.query(function() {
-    });
 });
 
 app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, Article, Form, articleId) {
@@ -96,7 +103,7 @@ app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, 
     };
 });
 
-app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $location, Article, Category, Form) {
+app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $location, Article, ImageUploader, Category, Form) {
     var articleId = $stateParams.articleId;
     $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
         $location.path('/articles/' + articleId);
@@ -114,10 +121,12 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
         $location.path('404');
     });
 
-    $scope.categories = Category.query();
+    var imageUploader = new ImageUploader($scope);
+    $scope.uploader = imageUploader.uploader;
 });
 
-app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form, FileUploader, Category) {
+app.controller('ArticleAddCtrl', function($scope, $location, $filter, $cookies, Form, ImageUploader, Category) {
+    $scope.categories = Category.query();
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $location.path('/articles/list');
     });
@@ -125,7 +134,8 @@ app.controller('ArticleAddCtrl', function($scope, $location, $filter, Form, File
     $scope.form.focus.title = true;
     var date = new Date();
     $scope.form.data.published = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');
-    $scope.uploader = new FileUploader();
-    $scope.categories = Category.query();
+
+    var imageUploader = new ImageUploader($scope);
+    $scope.uploader = imageUploader.uploader;
 });
 

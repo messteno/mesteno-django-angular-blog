@@ -64,6 +64,7 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
         .state('articles', {
             url: '/articles',
             templateUrl: '/static/mesteno/articles.html',
+            controller: 'ArticleCtrl',
         })
         .state('articles.list', {
             url: '/list',
@@ -73,8 +74,8 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
         .state('articles.item', {
             url: '/{articleId:[0-9]+}',
             templateUrl: '/static/mesteno/articles/item.html',
-            resolve:{
-                articleId: ['$stateParams', function($stateParams){
+            resolve: {
+                articleId: ['$stateParams', function($stateParams) {
                     return $stateParams.articleId;
                 }]
             },
@@ -93,13 +94,19 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
             url: '/articles/add',
             templateUrl: '/static/mesteno/articles/add.html',
             controller: 'ArticleAddCtrl',
-        });
+        })
+        ;
+
 };
 
 var hljsSettings = function(hljsServiceProvider) {
     hljsServiceProvider.setOptions({
         tabReplace: '    ',
     });
+};
+
+var ngClipSettings = function(ngClipProvider) {
+    ngClipProvider.setPath("/static/zeroclipboard/dist/ZeroClipboard.swf");
 };
 
 var app = angular
@@ -117,9 +124,11 @@ var app = angular
         'ui.ace',
         'angularFileUpload',
         'hljs',
+        'ngClipboard'
     ])
     .config(baseSettings)
     .config(routerSettings)
     .config(hljsSettings)
+    .config(ngClipSettings)
     .value('loader', {show: false});
 

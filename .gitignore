@@ -9,3 +9,4 @@ local_settings.py
 *.log
 /static
 /bower
+/media

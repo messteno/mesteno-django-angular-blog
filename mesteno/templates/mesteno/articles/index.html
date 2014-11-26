@@ -1,10 +1,28 @@
-<h1>Статьи</h1>
-<div ng-repeat="article in articleList.articles" class="article well well-sm">
-    <a href ui-sref="articles.item({articleId: article.id})">[[article.title]]</a>
-    <button ng-click="deleteArticle(article.id)" ng-show="article.user == profile.user.username" class="btn btn-xs btn-danger pull-right article-detail-icon">
-        <i class="glyphicon glyphicon-trash mr-2"></i>
-    </button>
-    <a href ui-sref="articles.item.edit({articleId: article.id})" ng-show="article.user == profile.user.username" class="btn btn-xs btn-warning pull-right article-detail-icon">
-        <i class="glyphicon glyphicon-edit"></i>
-    </a>
+<div class="row">
+    <div class="col-md-3">
+        <div class="categories list-group">
+            <span class="list-group-item heading">
+                <h3>Разделы</h3>
+            </span>
+            <a href ng-click="categoryFilter(0)" ng-class="{active: categoryId == undefined}" class="list-group-item" >Все</a>
+            <a ng-repeat="category in categories" ng-class="{active: categoryId == category.id}" class="list-group-item"
+               href ng-click="categoryFilter(category.id)">[[category.name]]</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div ng-repeat="article in articleList.articles | filter : {category: categoryId}" class="article-list-item">
+            <div class="well well-sm article-title">
+                <a href ui-sref="articles.item({articleId: article.id})">[[article.title]]</a>
+                <button ng-click="deleteArticle(article.id)" ng-show="article.user == profile.user.username"
+                        class="btn btn-xs btn-danger pull-right article-detail-icon">
+                    <i class="glyphicon glyphicon-trash mr-2"></i>
+                </button>
+                <a href ui-sref="articles.item.edit({articleId: article.id})" ng-show="article.user == profile.user.username"
+                   class="btn btn-xs btn-warning pull-right article-detail-icon">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+            </div>
+            <!-- <div compile&#45;template="article.code_content"></div> -->
+        </div>
+    </div>
 </div>

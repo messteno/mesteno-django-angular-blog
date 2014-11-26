@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <select class="form-control" ng-model="form.data.category" ng-options="category.id as category.name for category in categories">
                                     <option value="">-- Выберите категорию --</option>
                                 </select>
@@ -29,17 +29,86 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row"> -->
-            <!--     <div class="col&#45;md&#45;12"> -->
-            <!--         <input type="file" nv&#45;file&#45;select uploader="uploader"/><br/> -->
-            <!--         <ul> -->
-            <!--             <li ng&#45;repeat="item in uploader.queue"> -->
-            <!--                 Name: <span ng&#45;bind="item.file.name"></span><br/> -->
-            <!--                 <button ng&#45;click="item.upload()">upload</button> -->
-            <!--             </li> -->
-            <!--         </ul> -->
-            <!--     </div> -->
-            <!-- </div> -->
+            <div class="row mb-20">
+                <div class="col-md-3">
+                    <h3>Загрузка изображений</h3>
+                    <!-- <div ng&#45;show="uploader.isHTML5"> -->
+                    <!--     <div class="well my&#45;drop&#45;zone" nv&#45;file&#45;over="" uploader="uploader"> -->
+                    <!--         Можете переместить изображения в эту область -->
+                    <!--     </div> -->
+                    <!-- </div> -->
+                    <input type="file" nv-file-select uploader="uploader" accept=".jpg,.png,.jpeg,.bmp,.gif" multiple /><br/>
+                </div>
+                <div class="col-md-9">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="50%">Файл</th>
+                                <th ng-show="uploader.isHTML5">Размер</th>
+                                <th ng-show="uploader.isHTML5">Прогресс</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in uploader.queue">
+                                <td>
+                                    <strong>[[ item.file.name ]]</strong>
+                                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                    <input ng-show="item.isSuccess" class="form-control" type="text" disabled value="[[ item.link ]]" />
+                                </td>
+                                <td ng-show="uploader.isHTML5" nowrap>[[ item.file.size/1024/1024|number:2 ]] MB</td>
+                                <td ng-show="uploader.isHTML5">
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                </td>
+                                <td nowrap>
+                                    <p>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
+                                                ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                            <span class="glyphicon glyphicon-upload"></span> Загрузить
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> Удалить
+                                        </button>
+                                    </p>
+                                    <p>
+                                        <button type="button" class="btn btn-success btn-xs" ng-disabled="!item.isSuccess"
+                                                clip-copy="item.link">
+                                            Копировать ссылку
+                                        </button>
+                                    </p>
+                                    <p>
+                                        <button type="button" class="btn btn-success btn-xs" ng-disabled="!item.isSuccess" ng-click="item.pasteLink()">
+                                            Вставить ссылку в текст
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <div>
+                            Общий прогресс:
+                            <div class="progress" style="">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <span class="glyphicon glyphicon-upload"></span> Зугрузить все
+                        </button>
+                        <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                            <span class="glyphicon glyphicon-trash"></span> Удалить все
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <alert ng-show="form.error.published" type="danger">[[form.error.published]]</alert>

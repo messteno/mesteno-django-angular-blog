@@ -13,6 +13,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
     permission_classes = [IsOwnerOrReadOnly]
+    filter_fields = ('category', )
 
     def pre_save(self, obj):
         obj.user = self.request.user

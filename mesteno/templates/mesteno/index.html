@@ -30,6 +30,8 @@
             <script src="{% static "angular-highlightjs/angular-highlightjs.js" %}"></script>
             <script src="{% static "angular-ui-ace/ui-ace.js" %}"></script>
             <script src="{% static "angular-file-upload/angular-file-upload.js" %}"></script>
+            <script src="{% static "zeroclipboard/dist/ZeroClipboard.min.js" %}"></script>
+            <script src="{% static "ng-clip/dest/ng-clip.min.js" %}"></script>
 
             <script src="{% static "mesteno/js/app.js" %}"></script>
             <script src="{% static "mesteno/js/service.js" %}"></script>
@@ -63,6 +65,8 @@
             <script src="{% static "angular-highlightjs/angular-highlightjs.min.js" %}"></script>
             <script src="{% static "angular-ui-ace/ui-ace.min.js" %}"></script>
             <script src="{% static "angular-file-upload/angular-file-upload.min.js" %}"></script>
+            <script src="{% static "zeroclipboard/dist/ZeroClipboard.min.js" %}"></script>
+            <script src="{% static "ng-clip/dest/ng-clip.min.js" %}"></script>
 
             {% compress js %}
             <script src="{% static "mesteno/js/app.js" %}"></script>
@@ -96,14 +100,18 @@
                             <li ui-sref-active="active">
                                 <a href ui-sref="article-add">Добавить статью</a>
                             </li>
+                            {% if user.is_admin %}
+                            <li><a href="" ng-click="logout()">Выйти ([[profile.user.username]])</a></li>
+                            {% endif %}
                             <li><a href="" ng-click="logout()">Выйти ([[profile.user.username]])</a></li>
                             {% else %}
                             <li><a href="" ng-click="login()">Войти</a></li>
                             {% endif %}
                             {% csrf_token %}
                         </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
+                    </div>
+                </div>
+                <div class="back-pattern"></div>
             </nav>
             <div class="container" id="content">
                 <div class="row">

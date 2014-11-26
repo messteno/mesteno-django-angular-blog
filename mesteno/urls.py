@@ -8,6 +8,7 @@ from rest_framework import routers
 from .viewsets import UserViewSet
 from .views import ProfileView, LogoutView, LoginView
 from blog.viewsets import ArticleViewSet, CategoryViewSet
+from blog.views import ArticleImageUploadView
 
 
 router = routers.DefaultRouter()
@@ -23,6 +24,7 @@ urlpatterns = patterns(
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/articles/add/', ArticleViewSet.as_view({'post': 'create'})),
+    url(r'^api/article/imgupload/', ArticleImageUploadView.as_view()),
     url(r'^api/profile/', ProfileView.as_view()),
     url(r'^api/logout/', LogoutView.as_view()),
     url(r'^api/login/', LoginView.as_view()),
@@ -31,3 +33,7 @@ urlpatterns = patterns(
         namespace='rest_framework')),
     url(r'^blog/', include('blog.urls')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

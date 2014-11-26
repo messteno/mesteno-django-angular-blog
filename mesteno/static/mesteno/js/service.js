@@ -40,7 +40,6 @@ var Form = function($cookies, $http) {
 
             var self = this;
             self.disabled = true;
-            console.log($cookies.csrftoken);
 
             $http({
                 method: self.method,
@@ -112,10 +111,43 @@ var Form = function($cookies, $http) {
     return Form;
 };
 
+var ImageUploader = function($cookies, FileUploader) {
+    var ImageUploader = function($scope) {
+        this.uploader = new FileUploader({
+            url: '/api/article/imgupload/',
+            headers : {
+                'X-CSRFToken': $cookies.csrftoken,
+            },
+            method: 'PUT',
+        });
+
+        this.uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item , options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+
+        this.uploader.onSuccessItem = function(item, response) {
+            item.link = response.result;
+            item.pasteLink = function() {
+                if ($scope.form.data.content) {
+                    $scope.form.data.content += '\n<img src="' + item.link + '" alt="" />\n';
+                } else {
+                    $scope.form.data.content = '<img src="' + item.link + '" alt="" />\n';
+                }
+            };
+        };
+    };
+    return ImageUploader;
+};
+
 angular
     .module('mestenoServices', ['ngResource'])
     .factory('Profile', Profile)
     .factory('Article', Article)
     .factory('Category', Category)
+    .factory('ImageUploader', ImageUploader)
     .factory('Form', Form);
 
