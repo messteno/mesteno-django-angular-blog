@@ -7,6 +7,10 @@ h1 {
     margin-bottom: 20px;
 }
 
+pre {
+    padding: 5px;
+}
+
 .mr-2 {
     margin-right: 2px;
 }
@@ -21,6 +25,14 @@ h1 {
 
 .mt-0 {
     margin-top: 0;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
 }
 
 .mt-20 {
@@ -84,6 +96,15 @@ h1 {
     padding: 2px;
 }
 
+.article-add h3 {
+    margin-top: 5px;
+}
+
+.article-add textarea {
+    resize: none;
+    height: 150px;
+}
+
 .article-detail h1 {
     font-size: 3.5em;
 }
@@ -95,7 +116,7 @@ h1 {
     margin: 20px 0;
 }
 
-.article-detail p.meta time {
+time {
     padding-right: 10px;
 }
 
@@ -145,10 +166,42 @@ h1 {
     margin-bottom: 10px;
 }
 
-.article-title {
-    margin-bottom: 10px;
+.article-list-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    /* border-radius: 5px; */
+    /* padding: 20px; */
 }
 
+.article-list-item:last-child {
+    border: 0;
+}
+
+.article-list-item a.link {
+    text-decoration: none;
+    color: #333;
+}
+
+.article-list-item a.link:hover {
+    color: #999;
+}
+
+.article-title .when-by {
+    padding: 5px 0;
+    /* border-top: 1px solid #ccc; */
+    /* border-bottom: 1px solid #ccc; */
+    /* background: #fafafa; */
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    color: #999;
+}
+
+.article-title h2 {
+    margin-top: 0px;
+}
+
+.article-list-item img,
 .article-item img {
     max-width: 100%;
     padding: 5px;
@@ -156,5 +209,15 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 5px;
     max-height: 500px;
+    margin: 10px 0;
 }
 
+tag {
+    margin: 0 5px;
+}
+
+label.file-input input{
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}

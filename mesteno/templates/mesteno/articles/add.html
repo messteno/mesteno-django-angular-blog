@@ -12,13 +12,22 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <alert ng-show="form.error.title" type="danger" tabindex="-1">[[form.error.title]]</alert>
+                        <h3>Название</h3>
                         <input type="text" class="form-control" placeholder="Название" ng-model="form.data.title" focus-me="form.focus.title" />
                     </div>
                     <div class="form-group">
+                        <alert ng-show="form.error.description" type="danger" tabindex="-1">[[form.error.description]]</alert>
+                        <h3>Описание</h3>
+                        <textarea class="form-control" placeholder="Описание" ng-model="form.data.description" focus-me="form.focus.description">
+                        </textarea>
+                    </div>
+                    <div class="form-group">
                         <alert ng-show="form.error.content" type="danger">[[form.error.content]]</alert>
+                        <h3>Содержание</h3>
                         <div ui-ace="{onLoad: aceLoaded}" class="form-control editor" ng-model="form.data.content" focus-me="form.focus.content"></div>
                     </div>
                     <div class="form-group">
+                        <h3>Категория</h3>
                         <div class="row">
                             <div class="col-sm-3">
                                 <select class="form-control" ng-model="form.data.category" ng-options="category.id as category.name for category in categories">
@@ -27,20 +36,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <h3>Теги</h3>
+                        <tags-input ng-model="article.tags" placeholder="Теги" min-length="2" displayProperty="name">
+                        </tags-input>
+                    </div>
                 </div>
             </div>
             <div class="row mb-20">
                 <div class="col-md-3">
                     <h3>Загрузка изображений</h3>
-                    <!-- <div ng&#45;show="uploader.isHTML5"> -->
-                    <!--     <div class="well my&#45;drop&#45;zone" nv&#45;file&#45;over="" uploader="uploader"> -->
-                    <!--         Можете переместить изображения в эту область -->
-                    <!--     </div> -->
-                    <!-- </div> -->
-                    <input type="file" nv-file-select uploader="uploader" accept=".jpg,.png,.jpeg,.bmp,.gif" multiple /><br/>
+                    <label class="file-input btn btn-success">
+                        Выбрать изображение
+                        <input type="file" nv-file-select uploader="uploader" accept=".jpg,.png,.jpeg,.bmp,.gif" multiple />
+                    </label>
                 </div>
                 <div class="col-md-9">
-                    <table class="table">
+                    <table class="table mt-10">
                         <thead>
                             <tr>
                                 <th width="50%">Файл</th>
@@ -79,13 +91,13 @@
                                         </button>
                                     </p>
                                     <p>
-                                        <button type="button" class="btn btn-success btn-xs" ng-disabled="!item.isSuccess"
+                                        <button type="button" class="btn btn-info btn-xs" ng-disabled="!item.isSuccess"
                                                 clip-copy="item.link">
                                             Копировать ссылку
                                         </button>
                                     </p>
                                     <p>
-                                        <button type="button" class="btn btn-success btn-xs" ng-disabled="!item.isSuccess" ng-click="item.pasteLink()">
+                                        <button type="button" class="btn btn-info btn-xs" ng-disabled="!item.isSuccess" ng-click="item.pasteLink()">
                                             Вставить ссылку в текст
                                         </button>
                                     </p>
@@ -112,6 +124,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <alert ng-show="form.error.published" type="danger">[[form.error.published]]</alert>
+                    <h3>Дата публикации</h3>
                     <div class="article-datepicker well well-sm mb-0">
                         <datepicker show-weeks="false" ng-model="form.data.published" date-format></datepicker>
                     </div>

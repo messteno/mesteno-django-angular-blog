@@ -11,16 +11,35 @@
     </div>
     <div class="col-md-9">
         <div ng-repeat="article in articleList.articles | filter : {category: categoryId}" class="article-list-item">
-            <div class="well well-sm article-title">
-                <a href ui-sref="articles.item({articleId: article.id})">[[article.title]]</a>
-                <button ng-click="deleteArticle(article.id)" ng-show="article.user == profile.user.username"
-                        class="btn btn-xs btn-danger pull-right article-detail-icon">
-                    <i class="glyphicon glyphicon-trash mr-2"></i>
-                </button>
-                <a href ui-sref="articles.item.edit({articleId: article.id})" ng-show="article.user == profile.user.username"
-                   class="btn btn-xs btn-warning pull-right article-detail-icon">
-                    <i class="glyphicon glyphicon-edit"></i>
-                </a>
+            <div class="article-title">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2><a href ui-sref="articles.item({articleId: article.id})" class="link">[[article.title]]</a></h2>
+                        <div class="when-by">
+                            <time datetime="[[article.published]]">
+                                [[article.published]]
+                            </time>
+                            <span class="by">by [[article.user]]</span>
+                        </div>
+                        <p>
+                            <div compile-template="article.description || article.code_cut"></div>
+                        </p>
+                        <div ng-show="article.tags.length" class="mb-10">
+                            Теги: <tag ng-repeat="tag in article.tags" class="btn btn-info btn-xs">[[tag]]</tag>
+                        </div>
+                        <button class="btn btn-success" ui-sref="articles.item({articleId: article.id})">Читать далее</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button ng-click="deleteArticle(article.id)" ng-show="article.user == profile.user.username"
+                                class="btn btn-xs btn-danger pull-right article-detail-icon">
+                            <i class="glyphicon glyphicon-trash mr-2"></i>
+                        </button>
+                        <a href ui-sref="articles.item.edit({articleId: article.id})" ng-show="article.user == profile.user.username"
+                           class="btn btn-xs btn-warning pull-right article-detail-icon">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
             <!-- <div compile&#45;template="article.code_content"></div> -->
         </div>

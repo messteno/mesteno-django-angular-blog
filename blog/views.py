@@ -12,7 +12,8 @@ class ArticleImageUploadView(views.APIView):
 
     def put(self, request, format=None):
         file_obj = request.FILES['file']
-        new_path = get_uuid_file_path(settings.MEDIA_ROOT, 'img', file_obj.name)
+        new_path = get_uuid_file_path(settings.MEDIA_ROOT,
+                                      'img', file_obj.name)
         with open(new_path, 'wb+') as destination:
             for chunk in file_obj.chunks():
                 destination.write(chunk)

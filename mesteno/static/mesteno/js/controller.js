@@ -42,9 +42,14 @@ app.controller('ArticleCtrl', function($scope, Category) {
     $scope.categories = Category.query();
 });
 
-app.controller('ArticleListCtrl', function($scope, $modal, Article) {
+app.controller('ArticleListCtrl', function($scope, $modal, $filter, Article) {
     $scope.articleList = {};
-    $scope.articleList.articles = Article.query();
+    $scope.articleList.articles = Article.query(function() {
+        var list = $scope.articleList.articles;
+        for (var i = 0; i < list.length; ++i) {
+            list[i].published = $filter('date')(list[i].published, 'yyyy-MM-dd hh:mm:ss');
+        }
+    });
     $scope.deleteArticle = function(articleId) {
         var modalInstance = $modal.open({
             templateUrl: '/static/mesteno/articles/delete.html',
@@ -63,7 +68,7 @@ app.controller('ArticleListCtrl', function($scope, $modal, Article) {
             delete $scope.categoryId;
         else
             $scope.categoryId = categoryId;
-    }
+    };
 });
 
 app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
@@ -112,8 +117,19 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
     $scope.form.action = 'Редактировать статью';
     $scope.form.method = 'PUT';
 
+    $scope.form.beforeSubmit = function() {
+        if ($scope.article.tags.length > 0) {
+            var tags = [];
+            for (var i in $scope.article.tags) {
+                tags = tags.concat([$scope.article.tags[i].text]);
+            }
+            $scope.form.data.tags = tags.join();
+        }
+    };
+
     $scope.article = Article.get({articleId: $stateParams.articleId}, function() {
         $scope.form.data.title = $scope.article.title;
+        $scope.form.data.description = $scope.article.description;
         $scope.form.data.content = $scope.article.content;
         $scope.form.data.published = $scope.article.published;
         $scope.form.data.category = $scope.article.category;

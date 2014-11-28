@@ -35,12 +35,18 @@ var Form = function($cookies, $http) {
         this.processLink = processLink;
 
         this.submit = function() {
-            if (!this.processLink || !this.data) 
+            if (!this.processLink)
+                return false;
+
+            if (this.beforeSubmit)
+                this.beforeSubmit();
+
+            if (!this.data)
                 return false;
 
             var self = this;
             self.disabled = true;
-
+            
             $http({
                 method: self.method,
                 url: processLink,

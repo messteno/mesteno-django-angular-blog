@@ -9,6 +9,12 @@ from blog.models import Article, Category
 from blog.permissions import IsOwnerOrReadOnly
 
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
@@ -18,8 +24,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def pre_save(self, obj):
         obj.user = self.request.user
 
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    def post_save(self, obj, *args, **kwargs):
+        saved = Article.objects.get(pk=obj.pk)
+        if type(obj.tags) is list:
+            saved.tags.clear()
+            for tag in obj.tags:
+                saved.tags.add(tag)
+        else:
+            saved.tags.clear()

@@ -2,6 +2,7 @@ from django.utils.encoding import force_text
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db import models
+from taggit.managers import TaggableManager
 
 
 class Category(models.Model):
@@ -23,9 +24,12 @@ class Article(models.Model):
     user = models.ForeignKey(User, null=True, related_name='user')
     title = models.TextField(null=False, blank=False, default='Title',
                              verbose_name=u'Заголовок')
+    description = models.TextField(null=True, blank=True,
+                                   verbose_name=u'Описание')
     content = models.TextField(null=False, blank=False, default='Content',
                                verbose_name=u'Содержание')
     category = models.ForeignKey(Category, null=True, blank=True)
+    tags = TaggableManager(blank=True)
     published = models.DateTimeField(null=False, auto_now_add=True,
                                      default=timezone.now,
                                      verbose_name=u'Дата публикации')
@@ -61,6 +65,13 @@ class Article(models.Model):
 
         out += html[old_start:]
         return out
+
+    def code_cut(self):
+        html = self.code_content()
+        stop = html.find('</cut>', 0)
+        if stop == -1:
+            return ''
+        return html[:stop]
 
     def __str__(self):
         return self.title

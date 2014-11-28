@@ -124,6 +124,7 @@ var app = angular
         'ui.ace',
         'angularFileUpload',
         'hljs',
+        'ngTagsInput',
         'ngClipboard'
     ])
     .config(baseSettings)
