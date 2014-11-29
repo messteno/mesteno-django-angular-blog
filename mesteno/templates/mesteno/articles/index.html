@@ -1,16 +1,19 @@
 <div class="row">
     <div class="col-md-3">
-        <div class="categories list-group">
+        <div class="categories list-group mt-20">
             <span class="list-group-item heading">
                 <h3>Разделы</h3>
             </span>
-            <a href ng-click="categoryFilter(0)" ng-class="{active: categoryId == undefined}" class="list-group-item" >Все</a>
+            <a href ui-sref="articles.list({page: 1})" ng-class="{active: categoryId == 0}" class="list-group-item" >Все</a>
             <a ng-repeat="category in categories" ng-class="{active: categoryId == category.id}" class="list-group-item"
-               href ng-click="categoryFilter(category.id)">[[category.name]]</a>
+               href ui-sref="articles.category({categoryId: category.id, page: 1})">[[category.name]]</a>
         </div>
     </div>
     <div class="col-md-9">
-        <div ng-repeat="article in articleList.articles | filter : {category: categoryId}" class="article-list-item">
+        <pagination total-items="articles.count" items-per-page="articles.pageSize" ng-model="page" class="pagination-sm"
+                    ng-change="pageChanged()" next-text=">" previous-text="<" ng-show="articles.count>0">
+        </pagination>
+        <div ng-repeat="article in articles.list" class="article-list-item">
             <div class="article-title">
                 <div class="row">
                     <div class="col-md-10">
@@ -30,7 +33,7 @@
                         <button class="btn btn-success" ui-sref="articles.item({articleId: article.id})">Читать далее</button>
                     </div>
                     <div class="col-md-2">
-                        <button ng-click="deleteArticle(article.id)" ng-show="article.user == profile.user.username"
+                        <button ng-click="articles.deleteArticle(article.id)" ng-show="article.user == profile.user.username"
                                 class="btn btn-xs btn-danger pull-right article-detail-icon">
                             <i class="glyphicon glyphicon-trash mr-2"></i>
                         </button>

@@ -49,8 +49,12 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
         .when('', '/main')
         .when('/', '/main')
         .when('/articles', '/articles/list')
+        .when('/articles/list', '/articles/list/1')
         .when('/articles/{articleId:[0-9]+}', '/articles/{articleId:[0-9]+}/detail')
-        .otherwise('/404');
+        .when('/articles/category/{categoryId:[0-9]+}', '/articles/category/{categoryId:[0-9]+}/1')
+        .when('/articles/category/0/{page:[0-9]+}', '/articles/list/{page:[0-9+]}')
+        // .otherwise('/404')
+        ; 
 
     $stateProvider
         .state('404', {
@@ -67,9 +71,14 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
             controller: 'ArticleCtrl',
         })
         .state('articles.list', {
-            url: '/list',
+            url: '/list/{page:[0-9]+}',
             templateUrl: '/static/mesteno/articles/index.html',
             controller: 'ArticleListCtrl',
+        })
+        .state('articles.category', {
+            url: '/category/{categoryId:[0-9]+}/{page:[0-9]+}',
+            templateUrl: '/static/mesteno/articles/index.html',
+            controller: 'ArticleCategoryCtrl',
         })
         .state('articles.item', {
             url: '/{articleId:[0-9]+}',

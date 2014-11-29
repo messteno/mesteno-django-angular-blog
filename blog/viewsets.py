@@ -17,8 +17,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
-    queryset = Article.objects.all()
+    queryset = Article.objects.all().order_by('-published')
     permission_classes = [IsOwnerOrReadOnly]
+    paginate_by = 10
     filter_fields = ('category', )
 
     def pre_save(self, obj):

@@ -21,8 +21,58 @@ var Category = function(djResource) {
 };
 
 var Article = function(djResource) {
-    var Article = djResource('/api/articles/:articleId/', {articleId: '@articleId'});
+    var Article = djResource('/api/articles/:articleId/',
+                             {articleId: '@articleId', page: '@page'});
     return Article;
+};
+
+var Articles = function($modal, $state, $location, $stateParams, $filter, Article) {
+    var Articles = function($scope) {
+        this.list = [];
+        this.pageSize = 10;
+        this.count = $scope.page * this.pageSize;
+        this.page = $scope.page
+        
+        var self = this;
+
+        this.reload = function() {
+            var params = {};
+            if ($stateParams.categoryId)
+                params.category = $stateParams.categoryId;
+
+            params.page = self.page;
+
+            var article = Article.get(params, function() {
+                self.count = article.count;
+                self.list = article.results;
+                for (var i = 0; i < self.list.length; ++i) {
+                    self.list[i].published = $filter('date')(self.list[i].published, 'yyyy-MM-dd hh:mm:ss');
+                }
+            }, function() {
+                if (self.page > 1) {
+                    self.page -= 1;
+                    self.reload();
+                }
+            });
+        };
+
+        this.deleteArticle = function(articleId) {
+            var modalInstance = $modal.open({
+                templateUrl: '/static/mesteno/articles/delete.html',
+                controller: 'ArticleDeleteFromListCtrl',
+                windowClass: 'article-delete-modal',
+                scope: $scope,
+                resolve: {
+                    articleId: function() {
+                        return articleId;
+                    }
+                }
+            });
+        };
+
+        this.reload();
+    };
+    return Articles;
 };
 
 var Form = function($cookies, $http) {
@@ -153,6 +203,7 @@ angular
     .module('mestenoServices', ['ngResource'])
     .factory('Profile', Profile)
     .factory('Article', Article)
+    .factory('Articles', Articles)
     .factory('Category', Category)
     .factory('ImageUploader', ImageUploader)
     .factory('Form', Form);

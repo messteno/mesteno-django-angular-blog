@@ -42,32 +42,21 @@ app.controller('ArticleCtrl', function($scope, Category) {
     $scope.categories = Category.query();
 });
 
-app.controller('ArticleListCtrl', function($scope, $modal, $filter, Article) {
-    $scope.articleList = {};
-    $scope.articleList.articles = Article.query(function() {
-        var list = $scope.articleList.articles;
-        for (var i = 0; i < list.length; ++i) {
-            list[i].published = $filter('date')(list[i].published, 'yyyy-MM-dd hh:mm:ss');
-        }
-    });
-    $scope.deleteArticle = function(articleId) {
-        var modalInstance = $modal.open({
-            templateUrl: '/static/mesteno/articles/delete.html',
-            controller: 'ArticleDeleteCtrl',
-            windowClass: 'article-delete-modal',
-            scope: $scope,
-            resolve: {
-                articleId: function() {
-                    return articleId;
-                }
-            }
-        });
+app.controller('ArticleListCtrl', function($scope, $modal, $state, $stateParams, Articles) {
+    $scope.page = $stateParams.page;
+    $scope.categoryId = 0;
+    $scope.articles = new Articles($scope);
+    $scope.pageChanged = function() {
+        $state.go('articles.list', {page: $scope.page});
     };
-    $scope.categoryFilter = function(categoryId) {
-        if (categoryId == 0)
-            delete $scope.categoryId;
-        else
-            $scope.categoryId = categoryId;
+});
+
+app.controller('ArticleCategoryCtrl', function($scope, $modal, $state, $stateParams, Articles) {
+    $scope.page = $stateParams.page;
+    $scope.categoryId = $stateParams.categoryId;
+    $scope.articles = new Articles($scope);
+    $scope.pageChanged = function() {
+        $state.go('articles.category', {category: $scope.categoryId, page: $scope.page});
     };
 });
 
@@ -82,7 +71,7 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
     $scope.deleteArticle = function() {
         var modalInstance = $modal.open({
             templateUrl: '/static/mesteno/articles/delete.html',
-            controller: 'ArticleDeleteCtrl',
+            controller: 'ArticleDeleteFromDetailCtrl',
             windowClass: 'article-delete-modal',
             scope: $scope,
             resolve: {
@@ -94,11 +83,10 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
     };
 });
 
-app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, Article, Form, articleId) {
+app.controller('ArticleDeleteFromListCtrl', function($scope, $modalInstance, $state, Form, articleId) {
     $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
         $modalInstance.close();
-        $scope.articleList.articles = Article.query();
-        $location.path('/articles/list');
+        $scope.articles.reload();
     });
     $scope.form.method = 'DELETE';
     $scope.form.focus.delete = true;
@@ -108,10 +96,23 @@ app.controller('ArticleDeleteCtrl', function($scope, $modalInstance, $location, 
     };
 });
 
-app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $location, Article, ImageUploader, Category, Form) {
+app.controller('ArticleDeleteFromDetailCtrl', function($scope, $modalInstance, $stateParams, $state, Form, articleId) {
+    $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
+        $modalInstance.close();
+        $state.go('articles.list', {page: 1});
+    });
+    $scope.form.method = 'DELETE';
+    $scope.form.focus.delete = true;
+
+    $scope.closeModal = function() {
+        $modalInstance.close();
+    };
+});
+
+app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, Article, ImageUploader, Category, Form) {
     var articleId = $stateParams.articleId;
     $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
-        $location.path('/articles/' + articleId);
+        $state.go('articles.item', {articleId: articleId});
     });
     $scope.form.focus.title = true;
     $scope.form.action = 'Редактировать статью';
@@ -133,6 +134,7 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
         $scope.form.data.content = $scope.article.content;
         $scope.form.data.published = $scope.article.published;
         $scope.form.data.category = $scope.article.category;
+        $scope.form.data.tags = $scope.article.tags;
     }, function() {
         $location.path('404');
     });
@@ -141,13 +143,26 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, $locati
     $scope.uploader = imageUploader.uploader;
 });
 
-app.controller('ArticleAddCtrl', function($scope, $location, $filter, $cookies, Form, ImageUploader, Category) {
+app.controller('ArticleAddCtrl', function($scope, $state, $filter, $cookies, Form, ImageUploader, Category) {
     $scope.categories = Category.query();
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
-        $location.path('/articles/list');
+        $state.go('articles.item', {articleId: data.id});
     });
     $scope.form.action = 'Новая статья';
     $scope.form.focus.title = true;
+
+    $scope.form.beforeSubmit = function() {
+        if ($scope.article.tags && $scope.article.tags.length > 0) {
+            var tags = [];
+            for (var i in $scope.article.tags) {
+                tags = tags.concat([$scope.article.tags[i].text]);
+            }
+            $scope.form.data.tags = tags.join();
+        }
+    };
+
+    $scope.article = {};
+
     var date = new Date();
     $scope.form.data.published = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');
 
