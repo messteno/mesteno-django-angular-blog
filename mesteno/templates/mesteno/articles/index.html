@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-9">
         <pagination total-items="articles.count" items-per-page="articles.pageSize" ng-model="page" class="pagination-sm"
-                    ng-change="pageChanged()" next-text=">" previous-text="<" ng-show="articles.count>0">
+                    ng-change="pageChanged()" next-text=">" previous-text="<" ng-show="articles.count > 0">
         </pagination>
         <div ng-repeat="article in articles.list" class="article-list-item">
             <div class="article-title">
