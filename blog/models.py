@@ -10,8 +10,8 @@ class Category(models.Model):
                             verbose_name=u'Название')
 
     class Meta:
-        verbose_name = u'Категория'
-        verbose_name_plural = u'Категории'
+        verbose_name = u'категория'
+        verbose_name_plural = u'категории'
 
     def __str__(self):
         return self.name
@@ -35,8 +35,8 @@ class Article(models.Model):
                                      verbose_name=u'Дата публикации')
 
     class Meta:
-        verbose_name = u'Статья'
-        verbose_name_plural = u'Статьи'
+        verbose_name = u'статья'
+        verbose_name_plural = u'статьи'
 
     def code_content(self):
         html = self.content
@@ -78,3 +78,25 @@ class Article(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, blank=True, null=True)
+    name = models.CharField(max_length=50, blank=True)
+    comment = models.TextField(max_length=1024, blank=False, null=False)
+    submit_date = models.DateTimeField(null=True, auto_now_add=True,
+                                       default=timezone.now)
+    article = models.ForeignKey(Article, blank=False, null=False,
+                                related_name = 'comments')
+
+    class Meta:
+        ordering = ('submit_date',)
+        verbose_name = u'комментарий'
+        verbose_name_plural = u'комментарии'
+
+    def __str__(self):
+        return "%s: %s..." % (self.name, self.comment[:50])
+
+    def save(self, *args, **kwargs):
+        if self.submit_date is None:
+            self.submit_date = timezone.now()
+        super(Comment, self).save(*args, **kwargs)

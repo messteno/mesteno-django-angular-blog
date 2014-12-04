@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from blog.models import Article, Category
+from blog.models import Article, Category, Comment
 from django.db import models
 from rest_framework.serializers import Serializer
 from rest_framework.exceptions import ParseError
@@ -29,6 +29,17 @@ class TagListSerializer(serializers.WritableField):
         return obj
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.RelatedField(many=False)
+    name = serializers.CharField(required=False, blank=True)
+    comment = serializers.CharField(required=True)
+    submit_date = serializers.DateTimeField(required=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'article', 'user', 'name', 'comment', 'submit_date', )
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     user = serializers.RelatedField(many=False)
     title = serializers.CharField(required=True)
@@ -38,11 +49,13 @@ class ArticleSerializer(serializers.ModelSerializer):
     code_cut = serializers.CharField(required=False)
     tags = TagListSerializer(required=False, blank=True)
     published = serializers.DateTimeField(required=True)
+    comments = CommentSerializer(required=False)
 
     class Meta:
         model = Article
         fields = ('id', 'user', 'title', 'description', 'content',
-                  'code_cut', 'code_content', 'category', 'tags', 'published')
+                  'code_cut', 'code_content', 'category', 'tags', 'published',
+                  'comments', )
 
     def get_validation_exclusions(self, instance=None):
         """

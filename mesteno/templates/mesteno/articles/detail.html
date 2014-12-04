@@ -28,4 +28,37 @@
             </a>
         </div>
     </div>
+    <div class="row" ng-show="1">
+        <div class="col-md-12 article-comments">
+            <h3 ng-show="article.comments.length">
+                Комментарии:
+            </h3>
+            <div ng-repeat="comment in article.comments" ng-class="{'no-auth': !comment.user}" class="comment">
+                <i class="glyphicon glyphicon-user"></i>&nbsp;
+                <span class="name">[[comment.user || comment. name || 'Anonymous']]</span>
+                <i class="glyphicon glyphicon-ok-sign" ng-show="comment.user"></i>
+                <i class="glyphicon glyphicon-question-sign" ng-show="!comment.user"></i>
+                <span class="date">[[comment.submit_date | date : 'yyyy-MM-dd hh:mm:ss']]</span>
+                <p>[[comment.comment]]</p>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="1">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 article-comments mt-20">
+            <form accept-charset="UTF-8" role="form" ng-submit="form.submit()">
+            <fieldset>
+                <div class="form-group" ng-show="!profile.user">
+                    <alert ng-show="form.error.name" type="danger">[[form.error.name]]</alert>
+                    <input class="form-control" placeholder="Ваше имя" ng-model="form.data.name" focus-me="form.focus.name" type="text">
+                </div>
+                <div class="form-group">
+                    <alert ng-show="form.error.comment" type="danger">[[form.error.comment]]</alert>
+                    <textarea class="form-control" placeholder="Комментарий" ng-model="form.data.comment" focus-me="form.focus.comment"></textarea>
+                </div>
+                <alert ng-show="form.error.__all__" close="form.closeAlert('__all__')" type="danger">[[form.error.__all__]]</alert>
+                <input class="btn btn-sm btn-success" type="submit" value="Отправить">
+            </fieldset>
+            </form>
+        </div>
+    </div>
 </div>

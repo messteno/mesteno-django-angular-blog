@@ -7,7 +7,7 @@ from django.views.generic.base import TemplateView
 from rest_framework import routers
 from .viewsets import UserViewSet
 from .views import ProfileView, LogoutView, LoginView
-from blog.viewsets import ArticleViewSet, CategoryViewSet
+from blog.viewsets import ArticleViewSet, CategoryViewSet, CommentViewSet
 from blog.views import ArticleImageUploadView
 
 
@@ -15,6 +15,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'articles', ArticleViewSet)
 router.register(r'categories', CategoryViewSet)
+router.register(r'comments', CommentViewSet)
 
 
 urlpatterns = patterns(

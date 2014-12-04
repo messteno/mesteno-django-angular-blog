@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Article, Category
+from blog.models import Article, Category, Comment
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -18,3 +18,11 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name', )
     list_editable = ()
 admin.site.register(Category, CategoryAdmin)
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display_links = ('id', )
+    list_display = ('id', 'name', 'comment', )
+    search_fields = ('name' 'comment', )
+    list_editable = ()
+admin.site.register(Comment, CommentAdmin)

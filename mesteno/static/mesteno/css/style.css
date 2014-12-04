@@ -73,8 +73,7 @@ pre {
     text-align: center;
 }
 
-.login-modal .modal-dialog .alert,
-.article-add .alert {
+form .alert {
     margin-bottom: 5px;
     padding-top: 7px;
     padding-bottom: 7px;
@@ -142,7 +141,7 @@ time {
 }
 
 .ace_content {
-    padding: 7px !important;
+    /* padding: 7px !important; */
 }
 
 .article-detail-icon {
@@ -221,3 +220,30 @@ label.file-input input{
     height: 1px;
     opacity: 0;
 }
+
+.comment {
+    cursor: pointer;
+}
+
+.comment .name {
+    font-weight: bold;
+}
+
+.comment .date {
+    color: #666;
+    font-size: 0.8em;
+    padding-left: 10px;
+}
+
+.comment p {
+    margin: 10px 0 20px 0;
+}
+
+.comment.no-auth {
+    opacity: 0.5;
+}
+
+.comment.no-auth:hover {
+    opacity: 1;
+}
+

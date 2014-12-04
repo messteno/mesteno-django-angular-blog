@@ -1,11 +1,16 @@
 from django.shortcuts import get_object_or_404
-from blog.serializers import ArticleSerializer, CategorySerializer
+from django.contrib.auth.models import User, AnonymousUser
+from blog.serializers import (
+    ArticleSerializer,
+    CategorySerializer,
+    CommentSerializer,
+)
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
-from blog.models import Article, Category
+from blog.models import Article, Category, Comment
 from blog.permissions import IsOwnerOrReadOnly
 
 
@@ -18,12 +23,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all().order_by('-published')
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly]
     paginate_by = 10
     filter_fields = ('category', )
 
     def pre_save(self, obj):
-        obj.user = self.request.user
+        if self.request.user.is_authenticated():
+            obj.user = self.request.user
 
     def post_save(self, obj, *args, **kwargs):
         saved = Article.objects.get(pk=obj.pk)
@@ -33,3 +39,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
                 saved.tags.add(tag)
         else:
             saved.tags.clear()
+
+class CommentViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all().order_by('submit_date')
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def pre_save(self, obj):
+        #TODO: remove possibility to create comment for unpublished articles
+        if self.request.user.is_authenticated():
+            obj.user = self.request.user

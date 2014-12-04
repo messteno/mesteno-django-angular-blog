@@ -81,6 +81,15 @@ app.controller('ArticleItemCtrl', function($scope, $compile, $sce, $stateParams,
             }
         });
     };
+    $scope.form = new Form($scope, '/api/comments/', function(data) {
+        $scope.article.comments = $scope.article.comments.concat(data);
+    });
+    $scope.form.data.name = $scope.profile.user ? $scope.profile.user.username : '';
+    $scope.form.beforeSubmit = function() {
+        var date = new Date();
+        $scope.form.data.submit_date = $filter('date')(date, 'yyyy-MM-dd hh:mm:ss');
+        $scope.form.data.article = $stateParams.articleId;
+    };
 });
 
 app.controller('ArticleDeleteFromListCtrl', function($scope, $modalInstance, $state, Form, articleId) {
@@ -147,6 +156,9 @@ app.controller('ArticleAddCtrl', function($scope, $state, $filter, $cookies, For
     $scope.categories = Category.query();
     $scope.form = new Form($scope, '/api/articles/add/', function(data) {
         $state.go('articles.item', {articleId: data.id});
+        // $scope.form.data = data;
+        // $scope.form.processLink = '/api/articles/' + data.id + '/';
+        // $scope.form.method = 'PUT';
     });
     $scope.form.action = 'Новая статья';
     $scope.form.focus.title = true;

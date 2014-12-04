@@ -84,12 +84,12 @@ var Form = function($cookies, $http) {
         this.method = 'POST';
         this.processLink = processLink;
 
-        this.submit = function() {
+        this.submit = function(params) {
             if (!this.processLink)
                 return false;
 
             if (this.beforeSubmit)
-                this.beforeSubmit();
+                this.beforeSubmit(params);
 
             if (!this.data)
                 return false;
@@ -99,7 +99,7 @@ var Form = function($cookies, $http) {
             
             $http({
                 method: self.method,
-                url: processLink,
+                url: self.processLink,
                 data: self.data,
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded',
