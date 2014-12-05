@@ -7,6 +7,7 @@ from blog.serializers import (
 )
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework import filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
@@ -29,7 +30,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by('-published')
     permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly,
                           IsDraftOwner]
-    filter_backends = [IsDraftOwnerFilterBackend]
+    filter_backends = [IsDraftOwnerFilterBackend, filters.DjangoFilterBackend]
     paginate_by = 10
     filter_fields = ('category', )
 
