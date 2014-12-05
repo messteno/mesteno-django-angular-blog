@@ -33,6 +33,7 @@ class Article(models.Model):
     published = models.DateTimeField(null=False, auto_now_add=True,
                                      default=timezone.now,
                                      verbose_name=u'Дата публикации')
+    draft = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = u'статья'
@@ -79,6 +80,7 @@ class Article(models.Model):
     def __unicode__(self):
         return self.title
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     name = models.CharField(max_length=50, blank=True)
@@ -86,7 +88,7 @@ class Comment(models.Model):
     submit_date = models.DateTimeField(null=True, auto_now_add=True,
                                        default=timezone.now)
     article = models.ForeignKey(Article, blank=False, null=False,
-                                related_name = 'comments')
+                                related_name='comments')
 
     class Meta:
         ordering = ('submit_date',)

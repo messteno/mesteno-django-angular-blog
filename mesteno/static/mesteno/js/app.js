@@ -141,4 +141,3 @@ var app = angular
     .config(hljsSettings)
     .config(ngClipSettings)
     .value('loader', {show: false});
-

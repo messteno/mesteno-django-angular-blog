@@ -50,12 +50,13 @@ class ArticleSerializer(serializers.ModelSerializer):
     tags = TagListSerializer(required=False, blank=True)
     published = serializers.DateTimeField(required=True)
     comments = CommentSerializer(required=False)
+    draft = serializers.BooleanField(required=True)
 
     class Meta:
         model = Article
         fields = ('id', 'user', 'title', 'description', 'content',
                   'code_cut', 'code_content', 'category', 'tags', 'published',
-                  'comments', )
+                  'comments', 'draft', )
 
     def get_validation_exclusions(self, instance=None):
         """

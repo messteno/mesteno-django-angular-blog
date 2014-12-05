@@ -120,8 +120,12 @@ app.controller('ArticleDeleteFromDetailCtrl', function($scope, $modalInstance, $
 
 app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, Article, ImageUploader, Category, Form) {
     var articleId = $stateParams.articleId;
-    $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data) {
-        $state.go('articles.item', {articleId: articleId});
+    $scope.form = new Form($scope, '/api/articles/' + articleId + '/', function(data, params) {
+        if (params !== undefined && params.edit === true) {
+            $scope.form.data = data;
+        } else {
+            $state.go('articles.item', {articleId: data.id});
+        }
     });
     $scope.form.focus.title = true;
     $scope.form.action = 'Редактировать статью';
@@ -144,6 +148,7 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, Article
         $scope.form.data.published = $scope.article.published;
         $scope.form.data.category = $scope.article.category;
         $scope.form.data.tags = $scope.article.tags;
+        $scope.form.data.draft = $scope.article.draft;
     }, function() {
         $location.path('404');
     });
@@ -152,16 +157,18 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, Article
     $scope.uploader = imageUploader.uploader;
 });
 
-app.controller('ArticleAddCtrl', function($scope, $state, $filter, $cookies, Form, ImageUploader, Category) {
+app.controller('ArticleAddCtrl', function($scope, $state, $filter, $cookies, $route, Form, ImageUploader, Category) {
     $scope.categories = Category.query();
-    $scope.form = new Form($scope, '/api/articles/add/', function(data) {
-        $state.go('articles.item', {articleId: data.id});
-        // $scope.form.data = data;
-        // $scope.form.processLink = '/api/articles/' + data.id + '/';
-        // $scope.form.method = 'PUT';
+    $scope.form = new Form($scope, '/api/articles/add/', function(data, params) {
+        if (params !== undefined && params.edit === true) {
+            $state.go('articles.item.edit', {articleId: data.id});
+        } else {
+            $state.go('articles.item', {articleId: data.id});
+        }
     });
     $scope.form.action = 'Новая статья';
     $scope.form.focus.title = true;
+    $scope.form.data.draft = false;
 
     $scope.form.beforeSubmit = function() {
         if ($scope.article.tags && $scope.article.tags.length > 0) {

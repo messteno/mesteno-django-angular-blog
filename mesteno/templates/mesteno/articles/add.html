@@ -130,6 +130,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <alert ng-show="form.error.draft" type="danger">[[form.error.draft]]</alert>
+                    <h3>Черновик</h3>
+                    <label class="btn btn-primary" ng-model="form.data.draft" btn-radio="true" uncheckable>Да</label>
+                    <label class="btn btn-primary" ng-model="form.data.draft" btn-radio="false" uncheckable>Нет</label>
+                </div>
+            </div>
         </accordion-group>
         <accordion-group>
             <accordion-heading>
@@ -153,7 +161,11 @@
             </div>
         </accordion-group>
     </accordion>
-    <button class="btn btn-success btn-lg" ng-click="form.submit()">
+    <button class="btn btn-success" ng-click="form.submit()">
         <i class="glyphicon glyphicon-floppy-disk mr-5"></i>Сохранить
     </button>
+    <button class="btn btn-success" ng-click="form.submit({edit: true})">
+        <i class="glyphicon glyphicon-floppy-disk mr-5"></i>Сохранить и продолжить редактирование
+    </button>
+    <i class="glyphicon glyphicon-ok" ng-show="form.isSuccess()"></i>
 </div>

@@ -83,6 +83,7 @@ var Form = function($cookies, $http) {
         this.focus = {};
         this.method = 'POST';
         this.processLink = processLink;
+        this.success = false;
 
         this.submit = function(params) {
             if (!this.processLink)
@@ -117,11 +118,12 @@ var Form = function($cookies, $http) {
                 }
             })
             .success(function(data, status) {
+                self.success = true;
                 self.error = {};
                 self.focus = {};
                 self.data = {};
                 if (successCallback) {
-                    successCallback(data);
+                    successCallback(data, params);
                 }
                 self.disabled = false;
             })
@@ -129,6 +131,7 @@ var Form = function($cookies, $http) {
                 var firstFocusKey = Object.keys(self.focus)[0];
                 self.focus = {};
                 self.error = {};
+                self.success = false;
 
                 try {
                     for(var key in data) {
@@ -153,7 +156,7 @@ var Form = function($cookies, $http) {
                 }
 
                 if (errorCallback) {
-                    errorCallback();
+                    errorCallback(data, params);
                 }
 
                 self.disabled = false;
@@ -162,6 +165,10 @@ var Form = function($cookies, $http) {
 
         this.closeAlert = function(name) {
             delete this.error[name];
+        };
+
+        this.isSuccess = function() {
+            return this.success;
         };
     };
     return Form;

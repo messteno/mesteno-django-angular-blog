@@ -73,7 +73,7 @@ pre {
     text-align: center;
 }
 
-form .alert {
+.form-group .alert {
     margin-bottom: 5px;
     padding-top: 7px;
     padding-bottom: 7px;

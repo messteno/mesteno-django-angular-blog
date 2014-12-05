@@ -11,7 +11,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 from blog.models import Article, Category, Comment
-from blog.permissions import IsOwnerOrReadOnly
+from blog.permissions import (
+    IsOwnerOrReadOnly,
+    IsDraftOwner,
+    IsDraftOwnerFilterBackend,
+)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -23,7 +27,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all().order_by('-published')
-    permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly,
+                          IsDraftOwner]
+    filter_backends = [IsDraftOwnerFilterBackend]
     paginate_by = 10
     filter_fields = ('category', )
 
@@ -40,12 +46,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
         else:
             saved.tags.clear()
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all().order_by('submit_date')
     permission_classes = [IsOwnerOrReadOnly]
 
     def pre_save(self, obj):
-        #TODO: remove possibility to create comment for unpublished articles
+        # TODO: remove possibility to create comment for unpublished articles
         if self.request.user.is_authenticated():
             obj.user = self.request.user
