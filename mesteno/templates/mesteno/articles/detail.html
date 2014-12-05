@@ -1,8 +1,10 @@
 <alert ng-show="form.error.__all__" close="form.closeAlert('__all__')" type="danger">[[form.error.__all__]]</alert>
 
 <div class="article-detail">
-    <header>
-        <h1>[[article.title]]</h1>
+    <header class="article-title">
+        <h1>[[article.title]]
+            <span class="draft" ng-show="article.draft">черновик</span>
+        </h1>
     </header>
     <p class="meta">
         <time datetime="[[article.published]]">

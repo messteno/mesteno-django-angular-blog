@@ -247,3 +247,12 @@ label.file-input input{
     opacity: 1;
 }
 
+.article-title .draft {
+    font-size: 0.5em;
+    color: white;
+    margin-bottom: 20px;
+    float: right;
+    background: #777;
+    padding: 2px 4px 4px 4px;
+    border-radius: 5px;
+}
