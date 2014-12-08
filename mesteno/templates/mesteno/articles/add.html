@@ -52,59 +52,61 @@
                     </label>
                 </div>
                 <div class="col-md-9">
-                    <table class="table mt-10">
-                        <thead>
-                            <tr>
-                                <th width="50%">Файл</th>
-                                <th ng-show="uploader.isHTML5">Размер</th>
-                                <th ng-show="uploader.isHTML5">Прогресс</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in uploader.queue">
-                                <td>
-                                    <strong>[[ item.file.name ]]</strong>
-                                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
-                                    <input ng-show="item.isSuccess" class="form-control" type="text" disabled value="[[ item.link ]]" />
-                                </td>
-                                <td ng-show="uploader.isHTML5" nowrap>[[ item.file.size/1024/1024|number:2 ]] MB</td>
-                                <td ng-show="uploader.isHTML5">
-                                    <div class="progress" style="margin-bottom: 0;">
-                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                                </td>
-                                <td nowrap>
-                                    <p>
-                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
-                                                ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                            <span class="glyphicon glyphicon-upload"></span> Загрузить
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                                            <span class="glyphicon glyphicon-trash"></span> Удалить
-                                        </button>
-                                    </p>
-                                    <p>
-                                        <button type="button" class="btn btn-info btn-xs" ng-disabled="!item.isSuccess"
-                                                clip-copy="item.link">
-                                            Копировать ссылку
-                                        </button>
-                                    </p>
-                                    <p>
-                                        <button type="button" class="btn btn-info btn-xs" ng-disabled="!item.isSuccess" ng-click="item.pasteLink()">
-                                            Вставить ссылку в текст
-                                        </button>
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive mt-10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Файл</th>
+                                    <th ng-show="uploader.isHTML5">Размер</th>
+                                    <th ng-show="uploader.isHTML5">Прогресс</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in uploader.queue">
+                                    <td>
+                                        <strong>[[ item.file.name ]]</strong>
+                                        <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                        <input ng-show="item.isSuccess" class="form-control" type="text" disabled value="[[ item.link ]]" />
+                                    </td>
+                                    <td ng-show="uploader.isHTML5" nowrap>[[ item.file.size/1024/1024|number:2 ]] MB</td>
+                                    <td ng-show="uploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <p>
+                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
+                                                    ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                <span class="glyphicon glyphicon-upload"></span> Загрузить
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> Удалить
+                                            </button>
+                                        </p>
+                                        <p>
+                                            <button type="button" class="btn btn-info btn-xs" ng-disabled="!item.isSuccess"
+                                                    clip-copy="item.link">
+                                                Копировать ссылку
+                                            </button>
+                                        </p>
+                                        <p>
+                                            <button type="button" class="btn btn-info btn-xs" ng-disabled="!item.isSuccess" ng-click="item.pasteLink()">
+                                                Вставить ссылку в текст
+                                            </button>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div>
                         <div>
                             Общий прогресс:
@@ -161,10 +163,10 @@
             </div>
         </accordion-group>
     </accordion>
-    <button class="btn btn-success" ng-click="form.submit()">
+    <button class="btn btn-success mt-5 mb-5" ng-click="form.submit()">
         <i class="glyphicon glyphicon-floppy-disk mr-5"></i>Сохранить
     </button>
-    <button class="btn btn-success" ng-click="form.submit({edit: true})">
+    <button class="btn btn-success mt-5 mb-5" ng-click="form.submit({edit: true})">
         <i class="glyphicon glyphicon-floppy-disk mr-5"></i>Сохранить и продолжить редактирование
     </button>
     <i class="glyphicon glyphicon-ok" ng-show="form.isSuccess()"></i>
