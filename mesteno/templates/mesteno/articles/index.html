@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3">
-        <div class="categories list-group mt-20">
+        <div class="categories list-group mt-10">
             <span class="list-group-item heading">
                 <h3>Разделы</h3>
             </span>
@@ -10,10 +10,10 @@
         </div>
     </div>
     <div class="col-md-9">
-        <pagination total-items="articles.count" items-per-page="articles.pageSize" ng-model="page" class="pagination-sm"
-                    ng-change="pageChanged()" next-text=">" previous-text="<" ng-show="articles.count > 0">
+        <pagination total-items="articles.count" items-per-page="articles.pageSize" ng-model="page" class="pagination-sm mb-0 mt-10"
+                    ng-change="pageChanged()" next-text=">" previous-text="<" ng-show="articles.count && (articles.count > 10)">
         </pagination>
-        <div ng-repeat="article in articles.list" class="article-list-item">
+        <div ng-repeat="article in articles.list" class="article-list-item mt-10">
             <div class="article-title">
                 <div class="row">
                     <div class="col-md-10">
