@@ -38,8 +38,11 @@ app.controller('LoginModalCtrl', function($scope, $modalInstance, $location, $wi
     $scope.form.focus.username = true;
 });
 
-app.controller('ArticleCtrl', function($scope, Category) {
+app.controller('ArticleCtrl', function($scope, Category, Tag) {
     $scope.categories = Category.query();
+
+    // TODO: go-back update bug
+    $scope.tags = Tag.query();
 });
 
 app.controller('ArticleListCtrl', function($scope, $modal, $state, $stateParams, Articles) {
@@ -57,6 +60,15 @@ app.controller('ArticleCategoryCtrl', function($scope, $modal, $state, $statePar
     $scope.articles = new Articles($scope);
     $scope.pageChanged = function() {
         $state.go('articles.category', {category: $scope.categoryId, page: $scope.page});
+    };
+});
+
+app.controller('ArticleTagCtrl', function($scope, $modal, $state, $stateParams, Articles) {
+    $scope.page = $stateParams.page;
+    $scope.tagId = $stateParams.tagId;
+    $scope.articles = new Articles($scope);
+    $scope.pageChanged = function() {
+        $state.go('articles.tag', {tag: $scope.tagId, page: $scope.page});
     };
 });
 

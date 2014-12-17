@@ -80,6 +80,11 @@ var routerSettings = function($stateProvider, $urlRouterProvider) {
             templateUrl: '/static/mesteno/articles/index.html',
             controller: 'ArticleCategoryCtrl',
         })
+        .state('articles.tag', {
+            url: '/tag/{tagId:[0-9]+}/{page:[0-9]+}',
+            templateUrl: '/static/mesteno/articles/index.html',
+            controller: 'ArticleTagCtrl',
+        })
         .state('articles.item', {
             url: '/{articleId:[0-9]+}',
             templateUrl: '/static/mesteno/articles/item.html',

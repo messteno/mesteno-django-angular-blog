@@ -4,6 +4,7 @@ from blog.serializers import (
     ArticleSerializer,
     CategorySerializer,
     CommentSerializer,
+    TagSerializer,
 )
 from rest_framework import viewsets
 from rest_framework import status
@@ -12,11 +13,22 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 from blog.models import Article, Category, Comment
+from taggit_templatetags.templatetags import taggit_extras
 from blog.permissions import (
     IsOwnerOrReadOnly,
     IsDraftOwner,
     IsDraftOwnerFilterBackend,
 )
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    serializer_class = TagSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = taggit_extras.get_queryset('blog.Article')
+        queryset = queryset.order_by('name')
+        return queryset
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -32,7 +44,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
                           IsDraftOwner]
     filter_backends = [IsDraftOwnerFilterBackend, filters.DjangoFilterBackend]
     paginate_by = 10
-    filter_fields = ('category', )
+    filter_fields = ('category', 'tags__id')
 
     def pre_save(self, obj):
         if self.request.user.is_authenticated():

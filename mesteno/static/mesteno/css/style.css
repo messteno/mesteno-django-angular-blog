@@ -161,7 +161,8 @@ time {
     background-color: #f8f8f8;
 }
 
-.categories h3 {
+.categories h3,
+.tags h3 {
     margin-top: 0;
 }
 
@@ -220,7 +221,7 @@ time {
     margin: 10px 0;
 }
 
-tag {
+.article-tag {
     margin: 0 5px;
 }
 

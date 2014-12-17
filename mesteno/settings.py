@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
+    'django_extensions',
+    'taggit_templatetags',
     # 'debug_toolbar',
     'blog',
     'utils',

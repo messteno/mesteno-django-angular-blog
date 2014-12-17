@@ -20,6 +20,11 @@ var Category = function(djResource) {
     return Category;
 };
 
+var Tag = function(djResource) {
+    var Tag = djResource('/api/tags/:tagId/', {tagId: '@tagId'});
+    return Tag;
+};
+
 var Article = function(djResource) {
     var Article = djResource('/api/articles/:articleId/',
                              {articleId: '@articleId', page: '@page'});
@@ -39,7 +44,8 @@ var Articles = function($modal, $state, $location, $stateParams, $filter, Articl
             var params = {};
             if ($stateParams.categoryId)
                 params.category = $stateParams.categoryId;
-
+            if ($stateParams.tagId)
+                params.tags__id = $stateParams.tagId;
             params.page = self.page;
 
             var article = Article.get(params, function() {
@@ -212,6 +218,7 @@ angular
     .factory('Article', Article)
     .factory('Articles', Articles)
     .factory('Category', Category)
+    .factory('Tag', Tag)
     .factory('ImageUploader', ImageUploader)
     .factory('Form', Form);
 

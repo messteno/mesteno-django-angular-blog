@@ -1,12 +1,22 @@
 <div class="row">
     <div class="col-md-3">
         <div class="categories list-group mt-10">
-            <span class="list-group-item heading">
+            <div class="list-group-item heading">
                 <h3>Разделы</h3>
-            </span>
+            </div>
             <a href ui-sref="articles.list({page: 1})" ng-class="{active: categoryId == 0}" class="list-group-item" >Все</a>
             <a ng-repeat="category in categories" ng-class="{active: categoryId == category.id}" class="list-group-item"
                href ui-sref="articles.category({categoryId: category.id, page: 1})">[[category.name]]</a>
+        </div>
+        <div class="tags panel panel-default mt-10">
+            <div class="panel-heading heading">
+                <h3>Теги</h3>
+            </div>
+            <div class="panel-body">
+                <a href ui-sref="articles.tag({tagId: tag.id, page: 1})" 
+                        ng-repeat="tag in tags" class="btn btn-info btn-xs article-tag">[[tag.name]]
+                </a>
+            </div>
         </div>
     </div>
     <div class="col-md-9">
@@ -31,7 +41,10 @@
                             <div compile-template="article.description || article.code_cut"></div>
                         </p>
                         <div ng-show="article.tags.length" class="mb-10">
-                            Теги: <tag ng-repeat="tag in article.tags" class="btn btn-info btn-xs">[[tag]]</tag>
+                            Теги:
+                            <a href ui-sref="articles.tag({tagId: tag.id, page: 1})" 
+                               ng-repeat="tag in article.tags" class="btn btn-info btn-xs article-tag">[[tag.name]]
+                            </a>
                         </div>
                         <button class="btn btn-success" ui-sref="articles.item({articleId: article.id})">Читать далее</button>
                     </div>

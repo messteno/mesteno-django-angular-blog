@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from blog.models import Article, Category, Comment
+from taggit.models import TaggedItem, Tag
 from django.db import models
 from rest_framework.serializers import Serializer
 from rest_framework.exceptions import ParseError
@@ -11,6 +12,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
+        fields = ('id', 'name')
+
+
+class TagSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tag
         fields = ('id', 'name')
 
 
@@ -25,7 +33,7 @@ class TagListSerializer(serializers.WritableField):
 
     def to_native(self, obj):
         if type(obj) is not list:
-            return [tag.name for tag in obj.all()]
+            return [{u'id': tag.id, u'name': tag.name} for tag in obj.all()]
         return obj
 
 
