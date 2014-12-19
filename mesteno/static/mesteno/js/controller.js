@@ -147,7 +147,7 @@ app.controller('ArticleEditCtrl', function($scope, $state, $stateParams, Article
         if ($scope.article.tags.length > 0) {
             var tags = [];
             for (var i in $scope.article.tags) {
-                tags = tags.concat([$scope.article.tags[i].text]);
+                tags = tags.concat([$scope.article.tags[i].name]);
             }
             $scope.form.data.tags = tags.join();
         }
@@ -186,7 +186,7 @@ app.controller('ArticleAddCtrl', function($scope, $state, $filter, $cookies, $ro
         if ($scope.article.tags && $scope.article.tags.length > 0) {
             var tags = [];
             for (var i in $scope.article.tags) {
-                tags = tags.concat([$scope.article.tags[i].text]);
+                tags = tags.concat([$scope.article.tags[i].name]);
             }
             $scope.form.data.tags = tags.join();
         }
