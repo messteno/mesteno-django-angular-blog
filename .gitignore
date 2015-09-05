@@ -8,5 +8,5 @@ local_settings.py
 *.sqlite3
 *.log
 /static
-/bower
+/bower_components
 /media
