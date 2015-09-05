@@ -3,6 +3,8 @@
 var baseSettings = function($httpProvider, $interpolateProvider) {
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     $interpolateProvider.startSymbol('[[').endSymbol(']]');
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
     $httpProvider.defaults.transformRequest = [function(data)
     {

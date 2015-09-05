@@ -1,1 +1,0 @@
-uwsgi --socket mesteno.sock --mount /mesteno=mesteno/wsgi.py --enable-threads --chmod-socket=770 --daemonize /var/www/mesteno.ru/logs/uwsgi.log --manage-script-name

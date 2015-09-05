@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.utils.encoding import force_text
 from django.contrib.auth.models import User
 from django.utils import timezone
